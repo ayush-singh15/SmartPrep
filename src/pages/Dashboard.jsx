@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../hooks/AppContext'
 import ProgressBar from '../components/ProgressBar'
 import StudySession from '../components/StudySession'
+import DiagnosticQuiz from '../components/DiagnosticQuiz'
 import { BACKEND_ROADMAP, OTHER_ROADMAPS, WEAK_AREAS, GOALS } from '../data/mockData'
 
 function getHour() { return new Date().getHours() }
@@ -17,6 +18,7 @@ export default function Dashboard() {
   const { profile, progress, activity } = useApp()
   const navigate = useNavigate()
   const [showSession, setShowSession] = useState(false)
+  const [showQuiz, setShowQuiz] = useState(false)
 
   const goalId = progress.goalId || 'backend-developer'
   const roadmap = goalId === 'backend-developer' ? BACKEND_ROADMAP : (OTHER_ROADMAPS[goalId] || [])
@@ -36,13 +38,13 @@ export default function Dashboard() {
   return (
     <div className="grid gap-3 p-4 lg:p-6 lg:grid-cols-2 lg:items-start mx-auto max-w-[600px] lg:max-w-[1100px]">
       {showSession && <StudySession onClose={() => setShowSession(false)} />}
+      {showQuiz && <DiagnosticQuiz onClose={() => setShowQuiz(false)} />}
       {/* Left column: who I am + what to do now */}
       <div className="flex flex-col gap-3">
 
       {/* ── HERO CARD ── */}
-      <div style={{
-        backgroundColor: 'var(--surface-low)', border: '1px solid var(--border)',
-        borderRadius: 10, padding: 14, position: 'relative', overflow: 'hidden',
+      <div className="sp-card" style={{
+        padding: 14, position: 'relative', overflow: 'hidden',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
@@ -228,9 +230,8 @@ export default function Dashboard() {
       {/* Right column: diagnostics + history */}
       <div className="flex flex-col gap-3">
       {/* ── KNOWLEDGE GAPS ── */}
-      <div style={{
-        backgroundColor: 'var(--surface-low)', border: '1px solid var(--border)',
-        borderRadius: 10, padding: 12,
+      <div className="sp-card" style={{
+        padding: 12,
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -270,7 +271,7 @@ export default function Dashboard() {
         </div>
         <button
           className="sp-btn-secondary"
-          onClick={() => navigate('/assistant')}
+          onClick={() => setShowQuiz(true)}
           style={{ marginTop: 10, width: '100%', padding: '7px 0', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}
         >
           <span className="material-symbols-outlined" style={{ fontSize: 15 }}>quiz</span>

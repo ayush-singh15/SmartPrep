@@ -80,6 +80,39 @@ export default function Profile() {
         </div>
       )}
 
+      
+      {/* Achievements & Engineering Badges */}
+      <Section title="Engineering Badges & Badges" code="ACHIEVEMENTS">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 8 }}>
+          {[
+            { icon: 'local_fire_department', name: '6-Day Streak', desc: 'Active consistently', color: '#f59e0b', earned: true },
+            { icon: 'terminal', name: 'Terminal Native', desc: 'Commands & Hotkeys', color: '#14b8a6', earned: true },
+            { icon: 'verified', name: 'OOP Architect', desc: 'Score 92% in OOP', color: '#10b981', earned: true },
+            { icon: 'timer', name: 'Deep Focus', desc: 'Logged 5.5+ hours', color: '#8b5cf6', earned: true },
+            { icon: 'military_tech', name: 'DSA Grandmaster', desc: 'Finish Stage 03', color: '#ec4899', earned: false },
+            { icon: 'cloud_done', name: 'Cloud Deployed', desc: 'Docker + Spring Boot', color: '#3b82f6', earned: false },
+          ].map(b => (
+            <div key={b.name} style={{
+              padding: '10px 8px', borderRadius: 8, textAlign: 'center',
+              backgroundColor: b.earned ? 'var(--surface-mid)' : 'rgba(255, 255, 255, 0.02)',
+              border: `1px solid ${b.earned ? 'var(--border)' : 'rgba(255, 255, 255, 0.05)'}`,
+              opacity: b.earned ? 1 : 0.45,
+            }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 26, color: b.color, display: 'block', margin: '0 auto 4px' }}>
+                {b.icon}
+              </span>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--on-surface)' }}>{b.name}</div>
+              <div style={{ fontSize: '0.625rem', color: 'var(--on-surface-dim)', marginTop: 2 }}>{b.desc}</div>
+              {b.earned && (
+                <span className="mono" style={{ fontSize: '0.5625rem', color: '#10b981', fontWeight: 700, marginTop: 4, display: 'inline-block' }}>
+                  ✓ UNLOCKED
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </Section>
+
       {/* Personal info */}
       <Section title="Personal Information" code="USR_INFO">
         <Field label="Name" editing={editing}>

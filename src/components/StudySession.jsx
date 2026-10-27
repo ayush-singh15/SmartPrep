@@ -1,13 +1,20 @@
 import { useState, useEffect, useRef } from 'react'
 import { useApp } from '../hooks/AppContext'
+import { sound } from '../utils/sound'
+import { triggerConfetti } from '../utils/confetti'
 
-// runSeconds = how long the timer actually runs; minutes = what gets credited.
-// The "Demo" preset runs 10 s but credits 25 min, so it can be shown live in a viva.
 const PRESETS = [
   { label: '25 min', minutes: 25, runSeconds: 25 * 60 },
   { label: '45 min', minutes: 45, runSeconds: 45 * 60 },
   { label: '60 min', minutes: 60, runSeconds: 60 * 60 },
   { label: 'Demo 10s', minutes: 25, runSeconds: 10 },
+]
+
+const QUOTES = [
+  { text: 'First, solve the problem. Then, write the code.', author: 'John Johnson' },
+  { text: 'Simplicity is prerequisite for reliability.', author: 'Edsger Dijkstra' },
+  { text: 'Clean code always looks like it was written by someone who cares.', author: 'Robert C. Martin' },
+  { text: 'The only way to learn a new programming language is by writing programs in it.', author: 'Dennis Ritchie' },
 ]
 
 export default function StudySession({ onClose }) {
@@ -18,6 +25,7 @@ export default function StudySession({ onClose }) {
   const [running, setRunning] = useState(false)
   const [secondsLeft, setSecondsLeft] = useState(25 * 60)
   const [completed, setCompleted] = useState(false)
+  const [quoteIdx] = useState(() => Math.floor(Math.random() * QUOTES.length))
   const intervalRef = useRef(null)
 
   useEffect(() => {
@@ -28,6 +36,8 @@ export default function StudySession({ onClose }) {
           clearInterval(intervalRef.current)
           setRunning(false)
           setCompleted(true)
+          sound.playFanfare()
+          triggerConfetti()
           return 0
         }
         return s - 1
@@ -37,17 +47,20 @@ export default function StudySession({ onClose }) {
   }, [running])
 
   function startTimer() {
+    sound.playPop()
     setSecondsLeft(totalSeconds)
     setRunning(true)
     setCompleted(false)
   }
 
   function pauseTimer() {
+    sound.playPop()
     setRunning(false)
     clearInterval(intervalRef.current)
   }
 
   function resetTimer() {
+    sound.playPop()
     setRunning(false)
     clearInterval(intervalRef.current)
     setSecondsLeft(totalSeconds)
@@ -55,6 +68,7 @@ export default function StudySession({ onClose }) {
   }
 
   function handleComplete() {
+    sound.playSuccess()
     addStudySession(selectedMinutes)
     onClose && onClose()
   }
@@ -68,36 +82,67 @@ export default function StudySession({ onClose }) {
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 100,
-      backgroundColor: 'rgba(0,0,0,0.7)',
+      backgroundColor: 'rgba(5, 10, 18, 0.8)',
+      backdropFilter: 'blur(8px)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: 16,
     }}>
       <div className="sp-fadein" style={{
-        backgroundColor: 'var(--surface-low)',
-        border: '1px solid var(--border)',
-        borderRadius: 12, padding: 28,
-        width: '100%', maxWidth: 360,
-        display: 'flex', flexDirection: 'column', gap: 20,
+        background: 'linear-gradient(145deg, var(--surface-low) 0%, rgba(16, 24, 38, 0.98) 100%)',
+        border: '1px solid var(--border-bright)',
+        borderRadius: 16, padding: 26,
+        width: '100%', maxWidth: 380,
+        display: 'flex', flexDirection: 'column', gap: 18,
+        boxShadow: '0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px var(--primary-glow)',
       }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <div className="mono" style={{ color: 'var(--primary)', fontSize: '0.75rem', fontWeight: 600 }}>STUDY SESSION</div>
-            <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--on-surface)' }}>Focus Timer</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: 8,
+              background: 'var(--primary-gradient)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff'
+            }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>timer</span>
+            </div>
+            <div>
+              <div className="mono" style={{ color: 'var(--primary)', fontSize: '0.6875rem', fontWeight: 700 }}>SMARTPREP FOCUS</div>
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--on-surface)' }}>Deep Work Timer</div>
+            </div>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--on-surface-dim)', fontSize: 20 }}>
-            <span className="material-symbols-outlined">close</span>
+          <button onClick={onClose} style={{
+            width: 30, height: 30, borderRadius: 6,
+            background: 'var(--surface-mid)', border: '1px solid var(--border)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', color: 'var(--on-surface-dim)'
+          }}>
+            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>close</span>
           </button>
         </div>
 
+        {/* Motivational Quote */}
+        <div style={{
+          padding: '8px 12px', borderRadius: 8,
+          background: 'rgba(255, 255, 255, 0.03)',
+          border: '1px solid var(--border)',
+          textAlign: 'center'
+        }}>
+          <div style={{ fontSize: '0.8125rem', color: 'var(--on-surface-dim)', fontStyle: 'italic', lineHeight: 1.4 }}>
+            "{QUOTES[quoteIdx].text}"
+          </div>
+          <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', marginTop: 4 }}>
+            — {QUOTES[quoteIdx].author}
+          </div>
+        </div>
+
         {/* Circular timer */}
-        <div style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
-          <svg width={120} height={120} style={{ transform: 'rotate(-90deg)' }}>
-            <circle cx={60} cy={60} r={54} fill="none" stroke="var(--surface-mid)" strokeWidth={6} />
+        <div style={{ display: 'flex', justifyContent: 'center', position: 'relative', margin: '4px 0' }}>
+          <svg width={130} height={130} style={{ transform: 'rotate(-90deg)' }}>
+            <circle cx={65} cy={65} r={54} fill="none" stroke="var(--surface-mid)" strokeWidth={6} />
             <circle
-              cx={60} cy={60} r={54} fill="none"
-              stroke={completed ? 'var(--tertiary)' : 'var(--primary)'}
-              strokeWidth={6}
+              cx={65} cy={65} r={54} fill="none"
+              stroke={completed ? '#10b981' : 'var(--primary)'}
+              strokeWidth={7}
               strokeLinecap="round"
               strokeDasharray={circumference}
               strokeDashoffset={dashOffset}
@@ -106,11 +151,13 @@ export default function StudySession({ onClose }) {
           </svg>
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             {completed ? (
-              <span className="material-symbols-outlined" style={{ color: 'var(--tertiary)', fontSize: 36 }}>check_circle</span>
+              <span className="material-symbols-outlined" style={{ color: '#10b981', fontSize: 42 }}>check_circle</span>
             ) : (
               <>
-                <span className="mono" style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--on-surface)', lineHeight: 1 }}>{mm}:{ss}</span>
-                <span style={{ fontSize: '0.625rem', color: 'var(--on-surface-dim)', marginTop: 2 }}>remaining</span>
+                <span className="mono" style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--on-surface)', lineHeight: 1 }}>{mm}:{ss}</span>
+                <span className="mono" style={{ fontSize: '0.625rem', color: 'var(--primary)', marginTop: 4, letterSpacing: '0.04em' }}>
+                  {running ? 'FOCUSED RUN' : 'STANDBY'}
+                </span>
               </>
             )}
           </div>
@@ -122,13 +169,18 @@ export default function StudySession({ onClose }) {
             {PRESETS.map(p => (
               <button
                 key={p.label}
-                onClick={() => { setPreset(p); setSecondsLeft(p.runSeconds) }}
+                onClick={() => {
+                  sound.playPop()
+                  setPreset(p)
+                  setSecondsLeft(p.runSeconds)
+                }}
                 style={{
-                  flex: 1, padding: '6px 0', borderRadius: 4, cursor: 'pointer',
+                  padding: '7px 0', borderRadius: 6, cursor: 'pointer',
                   border: `1px solid ${preset.label === p.label ? 'var(--primary)' : 'var(--border)'}`,
-                  backgroundColor: preset.label === p.label ? 'var(--primary-bg)' : 'var(--surface-mid)',
+                  background: preset.label === p.label ? 'var(--primary-bg)' : 'var(--surface-mid)',
                   color: preset.label === p.label ? 'var(--primary)' : 'var(--on-surface-dim)',
-                  fontSize: '0.8125rem', fontWeight: 600,
+                  fontSize: '0.75rem', fontWeight: 600,
+                  boxShadow: preset.label === p.label ? '0 0 10px var(--primary-glow)' : 'none',
                 }}
               >
                 {p.label}
@@ -140,36 +192,36 @@ export default function StudySession({ onClose }) {
         {/* Controls */}
         {completed ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <div style={{ textAlign: 'center', color: 'var(--tertiary)', fontWeight: 600 }}>
-              Session complete! 🎉 +{selectedMinutes} min will be logged
+            <div style={{ textAlign: 'center', color: '#10b981', fontWeight: 700, fontSize: '0.9375rem' }}>
+              Focus session completed! 🎉 +{selectedMinutes}m logged
             </div>
             <button className="sp-btn-primary" onClick={handleComplete}
-              style={{ padding: '10px 0', width: '100%', fontSize: '0.9rem' }}>
-              Save Progress &amp; Close
+              style={{ padding: '11px 0', width: '100%', fontSize: '0.9375rem' }}>
+              Save Progress to Dashboard
             </button>
             <button className="sp-btn-secondary" onClick={resetTimer}
-              style={{ padding: '8px 0', width: '100%', fontSize: '0.875rem' }}>
-              Start Another
+              style={{ padding: '8px 0', width: '100%', fontSize: '0.8125rem' }}>
+              Start Another Sprint
             </button>
           </div>
         ) : (
           <div style={{ display: 'flex', gap: 8 }}>
             {!running ? (
               <button className="sp-btn-primary" onClick={startTimer}
-                style={{ flex: 1, padding: '10px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 18 }}>play_arrow</span>
-                Start
+                style={{ flex: 1, padding: '11px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 20 }}>play_arrow</span>
+                Start Focus Timer
               </button>
             ) : (
               <button className="sp-btn-secondary" onClick={pauseTimer}
-                style={{ flex: 1, padding: '10px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 18 }}>pause</span>
+                style={{ flex: 1, padding: '11px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 20 }}>pause</span>
                 Pause
               </button>
             )}
             <button className="sp-btn-secondary" onClick={resetTimer}
-              style={{ width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>restart_alt</span>
+              style={{ width: 46, height: 46, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>restart_alt</span>
             </button>
           </div>
         )}
