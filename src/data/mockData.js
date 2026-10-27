@@ -144,6 +144,10 @@ export const DEFAULT_PROGRESS = {
   weeklyHours: 5.5,
   weeklyTarget: 8,
   streak: 6,
+  masteredTopics: [
+    'Java syntax', 'Variables and data types', 'Control flow', 'Loops', 'Methods', 'Basic OOP',
+    'Classes and objects', 'Inheritance', 'Polymorphism', 'Encapsulation', 'Interfaces', 'Abstraction'
+  ],
 }
 
 export const DEFAULT_ACTIVITY = [

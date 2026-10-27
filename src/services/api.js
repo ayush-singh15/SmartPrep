@@ -1,8 +1,14 @@
 // SmartPrep Frontend API Client
 // Connects to Node.js / Express backend with automatic fail-safe fallback to localStorage.
 
+const CLOUD_API = 'https://smartprep-jet.vercel.app/api'
+const isGitHubPages = typeof window !== 'undefined' && window.location.hostname.includes('github.io')
 const isDev = import.meta.env.DEV
-const API_BASE = isDev ? 'http://localhost:5000/api' : '/api'
+
+// On GitHub Pages, direct requests to the live Vercel Cloud API
+// On Vercel, use relative /api for zero-latency same-origin serverless routing
+// In local dev, use port 5000 Express backend
+const API_BASE = isGitHubPages ? CLOUD_API : (isDev ? 'http://localhost:5000/api' : '/api')
 
 async function request(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`
@@ -28,9 +34,13 @@ async function request(endpoint, options = {}) {
 }
 
 export const api = {
-  // System Health
+  // System Health & Documentation
   async checkHealth() {
     return request('/health')
+  },
+
+  async getApiDocs() {
+    return request('/')
   },
 
   // Student Profile
@@ -65,6 +75,13 @@ export const api = {
     return request('/roadmap/select-goal', {
       method: 'POST',
       body: JSON.stringify({ goalId }),
+    })
+  },
+
+  async toggleTopic(topic) {
+    return request('/roadmap/toggle-topic', {
+      method: 'POST',
+      body: JSON.stringify({ topic }),
     })
   },
 

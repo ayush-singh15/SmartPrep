@@ -31,7 +31,14 @@ export function getRoadmap(req, res) {
     const progress = db.get('progress')
     const baseRoadmap = roadmaps[goalId] || roadmaps['backend-developer'] || []
     const withStatus = computeRoadmapStatus(baseRoadmap, progress.completedStages || [])
-    res.json({ success: true, data: withStatus })
+    res.json({
+      success: true,
+      data: {
+        goalId,
+        stages: withStatus,
+        masteredTopics: progress.masteredTopics || []
+      }
+    })
   } catch (error) {
     res.status(500).json({ success: false, error: error.message })
   }
@@ -78,8 +85,42 @@ export function completeStage(req, res) {
       success: true,
       data: {
         progress: updatedProgress,
-        roadmap: roadmapWithStatus,
+        stages: roadmapWithStatus,
         completedStage: completedStageObj
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message })
+  }
+}
+
+export function toggleTopic(req, res) {
+  try {
+    const { topic } = req.body
+    if (!topic) {
+      return res.status(400).json({ success: false, error: 'Topic string required' })
+    }
+
+    const progress = db.get('progress')
+    let mastered = progress.masteredTopics || []
+
+    if (mastered.includes(topic)) {
+      mastered = mastered.filter(t => t !== topic)
+    } else {
+      mastered = [...mastered, topic]
+    }
+
+    const updated = db.set('progress', {
+      ...progress,
+      masteredTopics: mastered
+    })
+
+    res.json({
+      success: true,
+      data: {
+        masteredTopics: updated.masteredTopics,
+        toggled: topic,
+        isMastered: mastered.includes(topic)
       }
     })
   } catch (error) {
@@ -103,7 +144,8 @@ export function selectGoal(req, res) {
       overallPercent: 0,
       weeklyHours: 0,
       weeklyTarget: 8,
-      streak: 1
+      streak: 1,
+      masteredTopics: []
     })
 
     const profile = db.get('profile')
@@ -112,7 +154,7 @@ export function selectGoal(req, res) {
     const currentActivity = db.get('activity') || []
     currentActivity.unshift({
       id: Date.now(),
-      text: `Selected Career Goal: ${goalId}`,
+      text: `Selected Career Goal: ${goalId.replace(/-/g, ' ')}`,
       time: 'Just now',
       color: 'primary'
     })

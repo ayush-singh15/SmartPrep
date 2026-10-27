@@ -43,21 +43,23 @@ const STATUS_CONFIG = {
 }
 
 export default function RoadmapStage({ stage, isLast }) {
-  const { completeStage } = useApp()
+  const { completeStage, toggleTopic: ctxToggleTopic, progress } = useApp()
   const [expanded, setExpanded] = useState(stage.status === 'current')
   const [marking, setMarking] = useState(false)
-  const [masteredTopics, setMasteredTopics] = useState(() => {
-    // Default completed stages to all checked
-    return stage.status === 'completed' ? (stage.topics || []) : []
-  })
 
   const cfg = STATUS_CONFIG[stage.status] || STATUS_CONFIG.upcoming
 
-  function toggleTopic(topic) {
+  const masteredList = progress?.masteredTopics || []
+  const isMastered = (topic) => {
+    if (stage.status === 'completed') return true
+    return masteredList.includes(topic)
+  }
+
+  function handleToggleTopic(topic) {
     sound.playPop()
-    setMasteredTopics(prev =>
-      prev.includes(topic) ? prev.filter(t => t !== topic) : [...prev, topic]
-    )
+    if (ctxToggleTopic) {
+      ctxToggleTopic(topic)
+    }
   }
 
   async function handleMark() {
@@ -73,7 +75,7 @@ export default function RoadmapStage({ stage, isLast }) {
   }
 
   const topicCount = stage.topics?.length || 1
-  const completedTopicCount = masteredTopics.length
+  const completedTopicCount = stage.topics ? stage.topics.filter(t => isMastered(t)).length : 0
   const topicPct = Math.round((completedTopicCount / topicCount) * 100)
 
   return (
@@ -216,11 +218,11 @@ export default function RoadmapStage({ stage, isLast }) {
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {stage.topics?.map(t => {
-                  const isChecked = masteredTopics.includes(t)
+                  const isChecked = isMastered(t)
                   return (
                     <button
                       key={t}
-                      onClick={() => toggleTopic(t)}
+                      onClick={() => handleToggleTopic(t)}
                       style={{
                         padding: '4px 10px', borderRadius: 6, cursor: 'pointer',
                         fontSize: '0.75rem', fontWeight: 500,

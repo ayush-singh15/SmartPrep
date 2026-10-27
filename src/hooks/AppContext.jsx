@@ -100,7 +100,16 @@ export function AppProvider({ children }) {
   }, [profile]);
 
   const selectGoal = useCallback(async (goalId) => {
-    const next = { goalId, completedStages: [], currentStage: computeCurrentStage([], goalId), weeklyHours: 0, weeklyTarget: 8, streak: 0, overallPercent: 0 };
+    const next = {
+      goalId,
+      completedStages: [],
+      currentStage: computeCurrentStage([], goalId),
+      weeklyHours: 0,
+      weeklyTarget: 8,
+      streak: 0,
+      overallPercent: 0,
+      masteredTopics: [],
+    };
     setProgressState(next);
     setItem(STORAGE_KEYS.PROGRESS, next);
     updateProfile({ currentGoal: goalId });
@@ -124,8 +133,14 @@ export function AppProvider({ children }) {
     const overallPercent = computeProgress(nextCompleted, goalId);
     const roadmap = goalId === 'backend-developer' ? BACKEND_ROADMAP : (OTHER_ROADMAPS[goalId] || []);
     const stageData = roadmap.find(s => s.id === stageId);
+
+    // Auto-master all topics in the completed stage
+    const stageTopics = stageData?.topics || [];
+    const currentMastered = progress.masteredTopics || [];
+    const nextMastered = Array.from(new Set([...currentMastered, ...stageTopics]));
+
     const newActivity = { id: Date.now(), text: 'Completed: ' + (stageData ? stageData.title : stageId), time: 'Just now', color: 'tertiary' };
-    const next = { ...progress, completedStages: nextCompleted, currentStage, overallPercent };
+    const next = { ...progress, completedStages: nextCompleted, currentStage, overallPercent, masteredTopics: nextMastered };
     setProgressState(next);
     setItem(STORAGE_KEYS.PROGRESS, next);
     const nextActivity = [newActivity, ...activity].slice(0, 10);
@@ -138,6 +153,23 @@ export function AppProvider({ children }) {
       // Local fallback active
     }
   }, [progress, activity]);
+
+  const toggleTopic = useCallback(async (topic) => {
+    const currentMastered = progress.masteredTopics || [];
+    const nextMastered = currentMastered.includes(topic)
+      ? currentMastered.filter(t => t !== topic)
+      : [...currentMastered, topic];
+
+    const next = { ...progress, masteredTopics: nextMastered };
+    setProgressState(next);
+    setItem(STORAGE_KEYS.PROGRESS, next);
+
+    try {
+      await api.toggleTopic(topic);
+    } catch {
+      // Local fallback active
+    }
+  }, [progress]);
 
   const addStudySession = useCallback(async (durationMinutes) => {
     const hours = durationMinutes / 60;
@@ -184,7 +216,7 @@ export function AppProvider({ children }) {
   return (
     <AppContext.Provider value={{
       profile, progress, sessions, activity, theme, backendStatus,
-      toggleTheme, updateProfile, selectGoal, completeStage, addStudySession, getRoadmap, resetDemo
+      toggleTheme, updateProfile, selectGoal, completeStage, toggleTopic, addStudySession, getRoadmap, resetDemo
     }}>
       {children}
     </AppContext.Provider>
