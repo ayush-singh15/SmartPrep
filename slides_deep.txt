@@ -1,0 +1,201 @@
+==================== SLIDE 1 ====================
+  Shape 0: id=16, name='Google Shape;16;p3', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=17, name='Google Shape;17;p3', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=18, name='Google Shape;18;p3', type=PICTURE (13), left=5591556, top=420624, width=1005840, height=996696 |  
+  Shape 3: id=19, name='Google Shape;19;p3', type=TEXT_BOX (17), left=914400, top=1691640, width=10360152, height=365760 | LLOYD INSTITUTE OF ENGINEERING & TECHNOLOGY 
+  Shape 4: id=20, name='Google Shape;20;p3', type=TEXT_BOX (17), left=914400, top=2112264, width=10360152, height=274320 |   Department of Computer Science & Engineering & Allied Branches 
+  Shape 5: id=21, name='Google Shape;21;p3', type=TEXT_BOX (17), left=914400, top=2715768, width=10360152, height=320040 | B.TECH SECOND YEAR MINI PROJECT  ·  BCC351 
+  Shape 6: id=22, name='Google Shape;22;p3', type=AUTO_SHAPE (1), left=1280160, top=3200400, width=9628632, height=1371600 |  
+  Shape 7: id=23, name='Google Shape;23;p3', type=TEXT_BOX (17), left=1463040, top=3200400, width=9262872, height=1371600 | [ PROJECT TITLE GOES HERE ] 
+  Shape 8: id=24, name='Google Shape;24;p3', type=TEXT_BOX (17), left=914400, top=4709160, width=10360152, height=320040 | Mini Project Presentation – II (Final Evaluation)   |   Session 2026–27 
+  Shape 9: id=25, name='Google Shape;25;p3', type=TEXT_BOX (17), left=914400, top=5303520, width=4480560, height=1097280 | GUIDE NAME \n [ Name of Guide ] \n [ Designation] \n [Department of CSE/AIML/Cyber Security/Data Sci 
+  Shape 10: id=26, name='Google Shape;26;p3', type=TEXT_BOX (17), left=6949440, top=5303520, width=4389120, height=1097280 |      SUBMITTED BY \n Student Name:                 Roll No. [ xxxxxxx ]               Class  & Sec 
+==================== SLIDE 2 ====================
+  Shape 0: id=32, name='Google Shape;32;p4', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=33, name='Google Shape;33;p4', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=34, name='Google Shape;34;p4', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=35, name='Google Shape;35;p4', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 01 
+  Shape 4: id=36, name='Google Shape;36;p4', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | OVERVIEW 
+  Shape 5: id=37, name='Google Shape;37;p4', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | Presentation Agenda 
+  Shape 6: id=38, name='Google Shape;38;p4', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=39, name='Google Shape;39;p4', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 2 
+  Shape 8: id=40, name='Google Shape;40;p4', type=AUTO_SHAPE (1), left=1234440, top=1691640, width=4663440, height=685800 |  
+  Shape 9: id=41, name='Google Shape;41;p4', type=AUTO_SHAPE (1), left=1417320, top=1847088, width=384048, height=384048 |  
+  Shape 10: id=42, name='Google Shape;42;p4', type=TEXT_BOX (17), left=1417320, top=1847088, width=384048, height=384048 | 1 
+  Shape 11: id=43, name='Google Shape;43;p4', type=TEXT_BOX (17), left=2011680, top=1691640, width=3657600, height=685800 | Project Recap 
+  Shape 12: id=44, name='Google Shape;44;p4', type=AUTO_SHAPE (1), left=1234440, top=2560320, width=4663440, height=685800 |  
+  Shape 13: id=45, name='Google Shape;45;p4', type=AUTO_SHAPE (1), left=1417320, top=2715768, width=384048, height=384048 |  
+  Shape 14: id=46, name='Google Shape;46;p4', type=TEXT_BOX (17), left=1417320, top=2715768, width=384048, height=384048 | 2 
+  Shape 15: id=47, name='Google Shape;47;p4', type=TEXT_BOX (17), left=2011680, top=2560320, width=3657600, height=685800 | Project Progress 
+  Shape 16: id=48, name='Google Shape;48;p4', type=AUTO_SHAPE (1), left=1234440, top=3429000, width=4663440, height=685800 |  
+  Shape 17: id=49, name='Google Shape;49;p4', type=AUTO_SHAPE (1), left=1417320, top=3584448, width=384048, height=384048 |  
+  Shape 18: id=50, name='Google Shape;50;p4', type=TEXT_BOX (17), left=1417320, top=3584448, width=384048, height=384048 | 3 
+  Shape 19: id=51, name='Google Shape;51;p4', type=TEXT_BOX (17), left=2011680, top=3429000, width=3657600, height=685800 | System Architecture 
+  Shape 20: id=52, name='Google Shape;52;p4', type=AUTO_SHAPE (1), left=1234440, top=4297680, width=4663440, height=685800 |  
+  Shape 21: id=53, name='Google Shape;53;p4', type=AUTO_SHAPE (1), left=1417320, top=4453128, width=384048, height=384048 |  
+  Shape 22: id=54, name='Google Shape;54;p4', type=TEXT_BOX (17), left=1417320, top=4453128, width=384048, height=384048 | 4 
+  Shape 23: id=55, name='Google Shape;55;p4', type=TEXT_BOX (17), left=2011680, top=4297680, width=3657600, height=685800 | Implementation Details 
+  Shape 24: id=56, name='Google Shape;56;p4', type=AUTO_SHAPE (1), left=1234440, top=5166360, width=4663440, height=685800 |  
+  Shape 25: id=57, name='Google Shape;57;p4', type=AUTO_SHAPE (1), left=1417320, top=5321808, width=384048, height=384048 |  
+  Shape 26: id=58, name='Google Shape;58;p4', type=TEXT_BOX (17), left=1417320, top=5321808, width=384048, height=384048 | 5 
+  Shape 27: id=59, name='Google Shape;59;p4', type=TEXT_BOX (17), left=2011680, top=5166360, width=3657600, height=685800 | Working Demonstration 
+  Shape 28: id=60, name='Google Shape;60;p4', type=AUTO_SHAPE (1), left=6263640, top=1691640, width=4663440, height=685800 |  
+  Shape 29: id=61, name='Google Shape;61;p4', type=AUTO_SHAPE (1), left=6446520, top=1847088, width=384048, height=384048 |  
+  Shape 30: id=62, name='Google Shape;62;p4', type=TEXT_BOX (17), left=6446520, top=1847088, width=384048, height=384048 | 6 
+  Shape 31: id=63, name='Google Shape;63;p4', type=TEXT_BOX (17), left=7040880, top=1691640, width=3657600, height=685800 | Technical Understanding 
+  Shape 32: id=64, name='Google Shape;64;p4', type=AUTO_SHAPE (1), left=6263640, top=2560320, width=4663440, height=685800 |  
+  Shape 33: id=65, name='Google Shape;65;p4', type=AUTO_SHAPE (1), left=6446520, top=2715768, width=384048, height=384048 |  
+  Shape 34: id=66, name='Google Shape;66;p4', type=TEXT_BOX (17), left=6446520, top=2715768, width=384048, height=384048 | 7 
+  Shape 35: id=67, name='Google Shape;67;p4', type=TEXT_BOX (17), left=7040880, top=2560320, width=3657600, height=685800 | Results & Testing 
+  Shape 36: id=68, name='Google Shape;68;p4', type=AUTO_SHAPE (1), left=6263640, top=3429000, width=4663440, height=685800 |  
+  Shape 37: id=69, name='Google Shape;69;p4', type=AUTO_SHAPE (1), left=6446520, top=3584448, width=384048, height=384048 |  
+  Shape 38: id=70, name='Google Shape;70;p4', type=TEXT_BOX (17), left=6446520, top=3584448, width=384048, height=384048 | 8 
+  Shape 39: id=71, name='Google Shape;71;p4', type=TEXT_BOX (17), left=7040880, top=3429000, width=3657600, height=685800 | Conclusion & Future Scope 
+  Shape 40: id=72, name='Google Shape;72;p4', type=AUTO_SHAPE (1), left=6263640, top=4297680, width=4663440, height=685800 |  
+  Shape 41: id=73, name='Google Shape;73;p4', type=AUTO_SHAPE (1), left=6446520, top=4453128, width=384048, height=384048 |  
+  Shape 42: id=74, name='Google Shape;74;p4', type=TEXT_BOX (17), left=6446520, top=4453128, width=384048, height=384048 | 9 
+  Shape 43: id=75, name='Google Shape;75;p4', type=TEXT_BOX (17), left=7040880, top=4297680, width=3657600, height=685800 | References 
+==================== SLIDE 3 ====================
+  Shape 0: id=81, name='Google Shape;81;p5', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=82, name='Google Shape;82;p5', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=83, name='Google Shape;83;p5', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=84, name='Google Shape;84;p5', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 02 
+  Shape 4: id=85, name='Google Shape;85;p5', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | RECAP 
+  Shape 5: id=86, name='Google Shape;86;p5', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | Project Recap (from Review-01) 
+  Shape 6: id=87, name='Google Shape;87;p5', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=88, name='Google Shape;88;p5', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 3 
+  Shape 8: id=89, name='Google Shape;89;p5', type=AUTO_SHAPE (1), left=1234440, top=1600200, width=4846320, height=4480560 |  
+  Shape 9: id=90, name='Google Shape;90;p5', type=TEXT_BOX (17), left=1508760, top=1828800, width=4297680, height=320040 | Problem Statement 
+  Shape 10: id=91, name='Google Shape;91;p5', type=TEXT_BOX (17), left=1508760, top=2331720, width=4297680, height=3474720 |  
+  Shape 11: id=92, name='Google Shape;92;p5', type=AUTO_SHAPE (1), left=6309360, top=1600200, width=4754880, height=4480560 |  
+  Shape 12: id=93, name='Google Shape;93;p5', type=TEXT_BOX (17), left=6583680, top=1828800, width=4206240, height=320040 | Objectives 
+  Shape 13: id=94, name='Google Shape;94;p5', type=TEXT_BOX (17), left=6583680, top=2377440, width=548640, height=548640 | 01 
+  Shape 14: id=95, name='Google Shape;95;p5', type=TEXT_BOX (17), left=7223760, top=2423160, width=3611880, height=548640 |  
+  Shape 15: id=96, name='Google Shape;96;p5', type=TEXT_BOX (17), left=6583680, top=3273552, width=548640, height=548640 | 02 
+  Shape 16: id=97, name='Google Shape;97;p5', type=TEXT_BOX (17), left=7223760, top=3319272, width=3611880, height=548640 |  
+  Shape 17: id=98, name='Google Shape;98;p5', type=TEXT_BOX (17), left=6583680, top=4169664, width=548640, height=548640 | 03 
+  Shape 18: id=99, name='Google Shape;99;p5', type=TEXT_BOX (17), left=7223760, top=4215384, width=3611880, height=548640 |  
+  Shape 19: id=100, name='Google Shape;100;p5', type=TEXT_BOX (17), left=6583680, top=5065776, width=548640, height=548640 | 04 
+  Shape 20: id=101, name='Google Shape;101;p5', type=TEXT_BOX (17), left=7223760, top=5111496, width=3611880, height=548640 |  
+==================== SLIDE 4 ====================
+  Shape 0: id=107, name='Google Shape;107;p6', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108900, height=3108900 |  
+  Shape 1: id=108, name='Google Shape;108;p6', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194500, height=2194500 |  
+  Shape 2: id=109, name='Google Shape;109;p6', type=AUTO_SHAPE (1), left=502920, top=457200, width=530400, height=530400 |  
+  Shape 3: id=110, name='Google Shape;110;p6', type=TEXT_BOX (17), left=502920, top=457200, width=530400, height=530400 | 03 
+  Shape 4: id=111, name='Google Shape;111;p6', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274200 | PROJECT PROGRESS 
+  Shape 5: id=112, name='Google Shape;112;p6', type=TEXT_BOX (17), left=1234440, top=676656, width=9692700, height=567000 | Planned vs Completed 
+  Shape 6: id=113, name='Google Shape;113;p6', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274200 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=114, name='Google Shape;114;p6', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274200 | 4 
+  Shape 8: id=115, name='Google Shape;115;p6', type=AUTO_SHAPE (1), left=1234477, top=1600200, width=9994500, height=4480500 |  
+  Shape 9: id=116, name='Google Shape;116;p6', type=TEXT_BOX (17), left=1590474, top=2194550, width=2387100, height=914400 | [ XX ]% 
+  Shape 10: id=117, name='Google Shape;117;p6', type=TEXT_BOX (17), left=1234440, top=3154680, width=2743200, height=274200 | OVERALL COMPLETION 
+  Shape 11: id=118, name='Google Shape;118;p6', type=TEXT_BOX (17), left=1463064, top=3840475, width=5453400, height=1097400 | [ Since Review-01: what was added ] 
+==================== SLIDE 5 ====================
+  Shape 0: id=124, name='Google Shape;124;p7', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=125, name='Google Shape;125;p7', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=126, name='Google Shape;126;p7', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=127, name='Google Shape;127;p7', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 04 
+  Shape 4: id=128, name='Google Shape;128;p7', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | Architecture 
+  Shape 5: id=129, name='Google Shape;129;p7', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | System Architecture / Workflow 
+  Shape 6: id=130, name='Google Shape;130;p7', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=131, name='Google Shape;131;p7', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 5 
+  Shape 8: id=132, name='Google Shape;132;p7', type=AUTO_SHAPE (1), left=1234440, top=1600200, width=9848088, height=4480560 |  
+  Shape 9: id=133, name='Google Shape;133;p7', type=TEXT_BOX (17), left=1234440, top=3200400, width=9848088, height=457200 | [ Insert your implemented system architecture / flowchart / DFD here ] 
+==================== SLIDE 6 ====================
+  Shape 0: id=139, name='Google Shape;139;p8', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=140, name='Google Shape;140;p8', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=141, name='Google Shape;141;p8', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=142, name='Google Shape;142;p8', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 05 
+  Shape 4: id=143, name='Google Shape;143;p8', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | IMPLEMENTATION 
+  Shape 5: id=144, name='Google Shape;144;p8', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | Implementation Details 
+  Shape 6: id=145, name='Google Shape;145;p8', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=146, name='Google Shape;146;p8', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 6 
+  Shape 8: id=147, name='Google Shape;147;p8', type=AUTO_SHAPE (1), left=1234471, top=1600200, width=9811200, height=4480500 |  
+  Shape 9: id=148, name='Google Shape;148;p8', type=TEXT_BOX (17), left=1463075, top=1846475, width=9334500, height=4005900 |  
+==================== SLIDE 7 ====================
+  Shape 0: id=154, name='Google Shape;154;p9', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=155, name='Google Shape;155;p9', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=156, name='Google Shape;156;p9', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=157, name='Google Shape;157;p9', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 06 
+  Shape 4: id=158, name='Google Shape;158;p9', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | WORKING DEMONSTRATION 
+  Shape 5: id=159, name='Google Shape;159;p9', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | Working Demonstration 
+  Shape 6: id=160, name='Google Shape;160;p9', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=161, name='Google Shape;161;p9', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 7 
+  Shape 8: id=162, name='Google Shape;162;p9', type=AUTO_SHAPE (1), left=1234440, top=1600200, width=3154680, height=3840480 |  
+  Shape 9: id=163, name='Google Shape;163;p9', type=TEXT_BOX (17), left=1234440, top=3017520, width=3154680, height=548640 | [ Screenshot: Input ] 
+  Shape 10: id=164, name='Google Shape;164;p9', type=TEXT_BOX (17), left=1234440, top=5623560, width=3154680, height=320040 | INPUT 
+  Shape 11: id=165, name='Google Shape;165;p9', type=TEXT_BOX (17), left=4389120, top=3017520, width=182880, height=548640 | › 
+  Shape 12: id=166, name='Google Shape;166;p9', type=AUTO_SHAPE (1), left=4572000, top=1600200, width=3154680, height=3840480 |  
+  Shape 13: id=167, name='Google Shape;167;p9', type=TEXT_BOX (17), left=4572000, top=3017520, width=3154680, height=548640 | [ Screenshot: Processing ] 
+  Shape 14: id=168, name='Google Shape;168;p9', type=TEXT_BOX (17), left=4572000, top=5623560, width=3154680, height=320040 | PROCESSING 
+  Shape 15: id=169, name='Google Shape;169;p9', type=TEXT_BOX (17), left=7726680, top=3017520, width=182880, height=548640 | › 
+  Shape 16: id=170, name='Google Shape;170;p9', type=AUTO_SHAPE (1), left=7909560, top=1600200, width=3154680, height=3840480 |  
+  Shape 17: id=171, name='Google Shape;171;p9', type=TEXT_BOX (17), left=7909560, top=3017520, width=3154680, height=548640 | [ Screenshot: Output ] 
+  Shape 18: id=172, name='Google Shape;172;p9', type=TEXT_BOX (17), left=7909560, top=5623560, width=3154680, height=320040 | OUTPUT 
+==================== SLIDE 8 ====================
+  Shape 0: id=178, name='Google Shape;178;p10', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=179, name='Google Shape;179;p10', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=180, name='Google Shape;180;p10', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=181, name='Google Shape;181;p10', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 07 
+  Shape 4: id=182, name='Google Shape;182;p10', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | TECHNICAL UNDERSTANDING 
+  Shape 5: id=183, name='Google Shape;183;p10', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | Technology Stack & Core Concepts 
+  Shape 6: id=184, name='Google Shape;184;p10', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=185, name='Google Shape;185;p10', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 8 
+  Shape 8: id=186, name='Google Shape;186;p10', type=AUTO_SHAPE (1), left=1234460, top=1600200, width=9829800, height=2526600 |  
+  Shape 9: id=187, name='Google Shape;187;p10', type=TEXT_BOX (17), left=1463050, top=1884376, width=9327000, height=1968000 |  
+  Shape 10: id=188, name='Google Shape;188;p10', type=AUTO_SHAPE (1), left=1234440, top=4480560, width=9829800, height=1600200 |  
+  Shape 11: id=189, name='Google Shape;189;p10', type=TEXT_BOX (17), left=1463040, top=4617720, width=5486400, height=320040 | Core Concept / Algorithm 
+  Shape 12: id=190, name='Google Shape;190;p10', type=TEXT_BOX (17), left=1463040, top=5029200, width=9326880, height=914400 | [ Explain the key algorithm, formula or concept in 2–3 lines, with its role in your project. ] 
+==================== SLIDE 9 ====================
+  Shape 0: id=196, name='Google Shape;196;p11', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=197, name='Google Shape;197;p11', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=198, name='Google Shape;198;p11', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=199, name='Google Shape;199;p11', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 08 
+  Shape 4: id=200, name='Google Shape;200;p11', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | RESULTS 
+  Shape 5: id=201, name='Google Shape;201;p11', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | Results & Testing 
+  Shape 6: id=202, name='Google Shape;202;p11', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=203, name='Google Shape;203;p11', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 9 
+  Shape 8: id=204, name='Google Shape;204;p11', type=TABLE (19), left=1234440, top=1600200, width=3000000, height=3000000 |  TABLE 6x4
+  Shape 9: id=205, name='Google Shape;205;p11', type=TEXT_BOX (17), left=1234440, top=5349240, width=9829800, height=457200 | [ Key result in one line, e.g. accuracy / response time / success rate ] 
+==================== SLIDE 10 ====================
+  Shape 0: id=211, name='Google Shape;211;p12', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=212, name='Google Shape;212;p12', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=213, name='Google Shape;213;p12', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=214, name='Google Shape;214;p12', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 09 
+  Shape 4: id=215, name='Google Shape;215;p12', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | CONCLUSION 
+  Shape 5: id=216, name='Google Shape;216;p12', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | Conclusion, Challenges & Future Scope 
+  Shape 6: id=217, name='Google Shape;217;p12', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=218, name='Google Shape;218;p12', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 10 
+  Shape 8: id=219, name='Google Shape;219;p12', type=AUTO_SHAPE (1), left=1234440, top=1600200, width=3154680, height=4480560 |  
+  Shape 9: id=220, name='Google Shape;220;p12', type=AUTO_SHAPE (1), left=1463040, top=1828800, width=457200, height=457200 |  
+  Shape 10: id=221, name='Google Shape;221;p12', type=TEXT_BOX (17), left=1463040, top=1828800, width=457200, height=457200 | ✓ 
+  Shape 11: id=222, name='Google Shape;222;p12', type=TEXT_BOX (17), left=2057400, top=1892808, width=2194560, height=320040 | Conclusion 
+  Shape 12: id=223, name='Google Shape;223;p12', type=TEXT_BOX (17), left=1463040, top=2560320, width=2697480, height=3291840 |  
+  Shape 13: id=224, name='Google Shape;224;p12', type=AUTO_SHAPE (1), left=4572000, top=1600200, width=3154680, height=4480560 |  
+  Shape 14: id=225, name='Google Shape;225;p12', type=AUTO_SHAPE (1), left=4800600, top=1828800, width=457200, height=457200 |  
+  Shape 15: id=226, name='Google Shape;226;p12', type=TEXT_BOX (17), left=4800600, top=1828800, width=457200, height=457200 | ✓ 
+  Shape 16: id=227, name='Google Shape;227;p12', type=TEXT_BOX (17), left=5394960, top=1892808, width=2194560, height=320040 | Challenges & Solutions 
+  Shape 17: id=228, name='Google Shape;228;p12', type=TEXT_BOX (17), left=4800600, top=2560320, width=2697480, height=3291840 |  
+  Shape 18: id=229, name='Google Shape;229;p12', type=AUTO_SHAPE (1), left=7909560, top=1600200, width=3154680, height=4480560 |  
+  Shape 19: id=230, name='Google Shape;230;p12', type=AUTO_SHAPE (1), left=8138160, top=1828800, width=457200, height=457200 |  
+  Shape 20: id=231, name='Google Shape;231;p12', type=TEXT_BOX (17), left=8138160, top=1828800, width=457200, height=457200 | ✓ 
+  Shape 21: id=232, name='Google Shape;232;p12', type=TEXT_BOX (17), left=8732520, top=1892808, width=2194560, height=320040 | Future Scope 
+  Shape 22: id=233, name='Google Shape;233;p12', type=TEXT_BOX (17), left=8138160, top=2560320, width=2697480, height=3291840 |  
+==================== SLIDE 11 ====================
+  Shape 0: id=239, name='Google Shape;239;p13', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=240, name='Google Shape;240;p13', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=241, name='Google Shape;241;p13', type=AUTO_SHAPE (1), left=502920, top=457200, width=530352, height=530352 |  
+  Shape 3: id=242, name='Google Shape;242;p13', type=TEXT_BOX (17), left=502920, top=457200, width=530352, height=530352 | 10 
+  Shape 4: id=243, name='Google Shape;243;p13', type=TEXT_BOX (17), left=1234440, top=429768, width=8686800, height=274320 | REFERENCES 
+  Shape 5: id=244, name='Google Shape;244;p13', type=TEXT_BOX (17), left=1234440, top=676656, width=9692640, height=566928 | References 
+  Shape 6: id=245, name='Google Shape;245;p13', type=TEXT_BOX (17), left=502920, top=6492240, width=7315200, height=274320 | BCC351  ·  B.TECH MINI PROJECT  ·  FINAL EVALUATION (REVIEW-02) 
+  Shape 7: id=246, name='Google Shape;246;p13', type=TEXT_BOX (17), left=11228832, top=6492240, width=457200, height=274320 | 11 
+  Shape 8: id=247, name='Google Shape;247;p13', type=AUTO_SHAPE (1), left=1234440, top=1600200, width=9848088, height=4480560 |  
+  Shape 9: id=248, name='Google Shape;248;p13', type=TEXT_BOX (17), left=1554480, top=1874520, width=9144000, height=457200 | [1]   [ Author(s), "Paper / book title," Source, vol., pp., Year. ] 
+  Shape 10: id=249, name='Google Shape;249;p13', type=TEXT_BOX (17), left=1554480, top=5394960, width=9144000, height=365760 | NOTE: All references must be cited in IEEE format. 
+==================== SLIDE 12 ====================
+  Shape 0: id=255, name='Google Shape;255;p14', type=AUTO_SHAPE (1), left=10424160, top=-1463040, width=3108960, height=3108960 |  
+  Shape 1: id=256, name='Google Shape;256;p14', type=AUTO_SHAPE (1), left=-1097280, top=5669280, width=2194560, height=2194560 |  
+  Shape 2: id=257, name='Google Shape;257;p14', type=TEXT_BOX (17), left=914400, top=2468880, width=10360152, height=822960 | THANK YOU 
+  Shape 3: id=258, name='Google Shape;258;p14', type=TEXT_BOX (17), left=914400, top=3383280, width=10360152, height=365760 | Questions & suggestions are welcome 
+  Shape 4: id=259, name='Google Shape;259;p14', type=TEXT_BOX (17), left=914400, top=4754880, width=10360152, height=320040 | Lloyd Institute of Engineering & Technology, Greater Noida 
