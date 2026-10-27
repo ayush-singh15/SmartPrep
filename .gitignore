@@ -30,3 +30,5 @@ inspect_data.py
 *.pyc
 __pycache__
 generate_*.py
+
+.vercel
