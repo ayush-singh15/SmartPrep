@@ -5,10 +5,10 @@ import ProgressBar from '../components/ProgressBar'
 import StudySession from '../components/StudySession'
 import DiagnosticQuiz from '../components/DiagnosticQuiz'
 import { BACKEND_ROADMAP, OTHER_ROADMAPS, WEAK_AREAS, GOALS } from '../data/mockData'
+import { sound } from '../utils/sound'
 
-function getHour() { return new Date().getHours() }
 function getGreeting() {
-  const h = getHour()
+  const h = new Date().getHours()
   if (h < 12) return 'Good morning'
   if (h < 17) return 'Good afternoon'
   return 'Good evening'
@@ -26,242 +26,244 @@ export default function Dashboard() {
   const nextLockedStage = roadmap.find(s => !((progress.completedStages || []).includes(s.id)) && s.id !== progress.currentStage)
   const touched = [...(progress.completedStages || []), progress.currentStage]
   const weakAreas = WEAK_AREAS.filter(w => touched.includes(w.stageId))
-  const trackLabel = (GOALS.find(g => g.id === goalId) || {}).subtitle || ''
+  const trackLabel = (GOALS.find(g => g.id === goalId) || {}).subtitle || 'Engineering Stack'
 
   const weeklyPct = Math.round(((progress.weeklyHours || 0) / (progress.weeklyTarget || 8)) * 100)
   const goalLabel = goalId.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')
   const completedCount = (progress.completedStages || []).length
-
-  // Last completed stage
   const lastCompleted = roadmap.filter(s => (progress.completedStages || []).includes(s.id)).pop()
 
   return (
-    <div className="grid gap-3 p-4 lg:p-6 lg:grid-cols-2 lg:items-start mx-auto max-w-[600px] lg:max-w-[1100px]">
+    <div className="flex flex-col gap-5 w-full">
+      {/* Modals placed cleanly outside the document flow */}
       {showSession && <StudySession onClose={() => setShowSession(false)} />}
       {showQuiz && <DiagnosticQuiz onClose={() => setShowQuiz(false)} />}
-      {/* Left column: who I am + what to do now */}
-      <div className="flex flex-col gap-3">
 
-      {/* ── HERO CARD ── */}
-      <div className="sp-card" style={{
-        padding: 14, position: 'relative', overflow: 'hidden',
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-              <span className="mono" style={{ color: 'var(--primary)', fontSize: '0.6875rem', fontWeight: 600 }}>
+      {/* ── 1. GREETING & PIPELINE HERO CARD ── */}
+      <div className="sp-card p-5 sm:p-6 overflow-hidden">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col min-w-0">
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span className="mono text-xs text-[var(--primary)] font-bold tracking-wider">
                 DEV_SESSION // {(profile.name || 'AYUSH').toUpperCase()}
               </span>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'var(--tertiary)', display: 'inline-block' }} className="sp-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[var(--tertiary)] animate-pulse" />
             </div>
-            <h2 style={{ fontSize: '1.375rem', fontWeight: 700, color: 'var(--on-surface)', margin: '0 0 3px' }}>
+            <h1 className="text-xl sm:text-2xl font-bold text-[var(--on-surface)] tracking-tight">
               {getGreeting()}, {profile.name || 'Ayush'}
-            </h2>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--on-surface-dim)' }}>
-              {profile.degree} {profile.branch} (Sec {profile.section || '2-A'}) • {profile.semester || profile.year}
-            </div>
+            </h1>
+            <p className="text-xs sm:text-sm text-[var(--on-surface-dim)] mt-1">
+              {profile.degree} {profile.branch} • {profile.semester || profile.year}
+            </p>
           </div>
-          <div style={{
-            width: 40, height: 40, borderRadius: 8, backgroundColor: 'var(--surface-mid)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-          }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 24, color: 'var(--primary)' }}>terminal</span>
+
+          <div className="w-11 h-11 rounded-xl bg-[var(--surface-mid)] border border-[var(--border)] flex items-center justify-center text-[var(--primary)] shrink-0 shadow-inner">
+            <span className="material-symbols-outlined text-[24px]">terminal</span>
           </div>
         </div>
 
-        {/* Pipeline bar */}
-        <div style={{ backgroundColor: 'var(--surface)', borderRadius: 8, padding: '8px 10px', marginTop: 10 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 16, color: 'var(--primary)' }}>verified</span>
-              <span className="mono" style={{ color: 'var(--primary)', fontSize: '0.8125rem', fontWeight: 600 }}>{goalLabel}</span>
+        {/* Pipeline Bar */}
+        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-3.5 sm:p-4 mt-4 shadow-sm">
+          <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="material-symbols-outlined text-[var(--primary)] text-[18px] shrink-0">verified</span>
+              <span className="mono text-xs sm:text-sm font-semibold text-[var(--primary)] truncate">
+                {goalLabel}
+              </span>
             </div>
-            <span className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)' }}>
+            <span className="mono text-xs text-[var(--secondary)] shrink-0">
               Stage {completedCount + (currentStageData ? 1 : 0)} / {roadmap.length}
             </span>
           </div>
-          <ProgressBar value={progress.overallPercent || 0} max={100} />
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4, fontSize: '0.75rem' }}>
-            <span style={{ color: 'var(--on-surface-dim)' }}>{progress.overallPercent || 0}% Verified Competency</span>
-            <span className="mono" style={{ color: 'var(--tertiary)' }}>Pipeline: Nominal</span>
+
+          <ProgressBar value={progress.overallPercent || 0} max={100} height={7} />
+
+          <div className="flex items-center justify-between text-xs text-[var(--on-surface-dim)] mt-2 flex-wrap gap-1 font-mono">
+            <span>{progress.overallPercent || 0}% Verified Competency</span>
+            <span className="text-[var(--tertiary)] font-semibold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--tertiary)]" />
+              Pipeline: Nominal
+            </span>
           </div>
         </div>
       </div>
 
-      {/* ── CURRENT STAGE / DIRECTIVE CARD ── */}
-      {currentStageData && (
-        <div style={{
-          backgroundColor: 'var(--surface-low)', border: '1px solid var(--primary)',
-          borderRadius: 10, padding: 14, position: 'relative', overflow: 'hidden',
-        }}>
-          {/* Top row */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span className="mono" style={{
-                fontSize: '0.6875rem', fontWeight: 600,
-                backgroundColor: 'var(--primary-bg)', color: 'var(--primary)',
-                padding: '1px 6px', borderRadius: 2,
-              }}>STAGE {String(currentStageData.stage).padStart(2, '0')}</span>
-              <span className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)' }}>
+      {/* ── 2. CURRENT STAGE / DIRECTIVE CARD ── */}
+      {currentStageData ? (
+        <div className="sp-card p-5 sm:p-6 border-[var(--primary)]/50 shadow-md">
+          {/* Header row */}
+          <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+            <div className="flex items-center gap-2">
+              <span className="mono text-xs font-bold bg-[var(--primary-bg)] text-[var(--primary)] px-2.5 py-1 rounded border border-[var(--primary)]/30">
+                STAGE {String(currentStageData.stage).padStart(2, '0')}
+              </span>
+              <span className="mono text-xs text-[var(--on-surface-dim)]">
                 {currentStageData.subtitle}
               </span>
             </div>
-            <span style={{
-              display: 'flex', alignItems: 'center', gap: 3,
-              backgroundColor: 'var(--tertiary-bg)', color: 'var(--tertiary)',
-              fontSize: '0.625rem', fontWeight: 600, padding: '2px 7px', borderRadius: 9999,
-            }}>
-              <span style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: 'var(--tertiary)', display: 'inline-block' }} className="sp-pulse" />
+            <span className="badge-active mono text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] animate-pulse" />
               ACTIVE RUN
             </span>
           </div>
 
-          {/* Content */}
-          <div style={{ marginBottom: 8 }}>
-            <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)', fontWeight: 600, letterSpacing: '0.05em', marginBottom: 3 }}>
-              TODAY'S STUDY DIRECTIVE
+          {/* Directive details */}
+          <div className="mb-4">
+            <div className="mono text-[11px] text-[var(--secondary)] font-bold tracking-wider uppercase mb-1">
+              Today's Study Directive
             </div>
-            <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--on-surface)', lineHeight: 1.3 }}>
+            <h2 className="text-base sm:text-lg font-bold text-[var(--on-surface)] leading-snug">
               {currentStageData.todayFocus || currentStageData.topics?.[0] || currentStageData.title}
-            </div>
+            </h2>
             {currentStageData.todayDescription && (
-              <div style={{ fontSize: '0.8125rem', color: 'var(--on-surface-dim)', marginTop: 4, lineHeight: 1.5 }}>
+              <p className="text-xs sm:text-sm text-[var(--on-surface-dim)] mt-1.5 leading-relaxed">
                 {currentStageData.todayDescription}
-              </div>
+              </p>
             )}
           </div>
 
-          {/* Meta row */}
-          <div style={{ display: 'flex', gap: 12, marginBottom: 10, flexWrap: 'wrap' }}>
-            <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.75rem', color: 'var(--on-surface-dim)' }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 14, color: 'var(--primary)' }}>schedule</span>
-              Est. {currentStageData.estimatedMinutes || 45} min
+          {/* Meta specs */}
+          <div className="flex items-center gap-4 py-2 border-y border-[var(--border)] font-mono text-xs text-[var(--on-surface-dim)] flex-wrap">
+            <div className="flex items-center gap-1.5 text-[var(--primary)] font-semibold">
+              <span className="material-symbols-outlined text-[16px]">schedule</span>
+              <span>Est. {currentStageData.estimatedMinutes || 45} min</span>
             </div>
-            <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.75rem', color: 'var(--on-surface-dim)' }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 14, color: 'var(--tertiary)' }}>task_alt</span>
-              {currentStageData.topics?.length || 3} Topics
+            <div className="flex items-center gap-1.5 text-[var(--tertiary)]">
+              <span className="material-symbols-outlined text-[16px]">task_alt</span>
+              <span>{currentStageData.topics?.length || 3} Checkpoints</span>
             </div>
-            <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.75rem', color: 'var(--on-surface-dim)' }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 14, color: 'var(--secondary)' }}>code_blocks</span>
-              {trackLabel}
+            <div className="flex items-center gap-1.5 text-[var(--secondary-hi)]">
+              <span className="material-symbols-outlined text-[16px]">code</span>
+              <span>{trackLabel}</span>
             </div>
           </div>
 
-          {/* Buttons */}
-          <div style={{ display: 'flex', gap: 8 }}>
+          {/* Action buttons */}
+          <div className="flex items-center gap-3 pt-4">
             <button
-              className="sp-btn-primary"
-              onClick={() => setShowSession(true)}
-              style={{ flex: 1, padding: '10px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, fontSize: '0.9rem' }}
+              onClick={() => {
+                sound.playPop()
+                setShowSession(true)
+              }}
+              className="sp-btn-primary flex-1 h-11 flex items-center justify-center gap-2 text-sm sm:text-base font-semibold"
             >
-              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>play_arrow</span>
-              Continue Session
+              <span className="material-symbols-outlined text-[20px]">play_arrow</span>
+              <span>Continue Session</span>
             </button>
             <button
-              className="sp-btn-secondary"
-              onClick={() => setShowSession(true)}
-              title="Start Pomodoro"
-              style={{ padding: '0 12px', display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.8125rem', height: 44 }}
+              onClick={() => {
+                sound.playPop()
+                setShowSession(true)
+              }}
+              className="sp-btn-secondary h-11 px-4 flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[var(--primary)] font-bold"
+              title="Quick Pomodoro Sprint"
             >
-              <span className="material-symbols-outlined" style={{ fontSize: 16 }}>timer</span>
-              25m
+              <span className="material-symbols-outlined text-[18px]">timer</span>
+              <span>25m</span>
             </button>
           </div>
+        </div>
+      ) : (
+        <div className="sp-card p-5 bg-[var(--tertiary-bg)] border-[var(--tertiary)] text-center">
+          <div className="text-base font-bold text-[var(--tertiary)]">
+            All Roadmap Stages Verified! 🎉
+          </div>
+          <p className="text-xs text-[var(--on-surface-dim)] mt-1">
+            You've completed all stages. Review weak areas or pick another career goal.
+          </p>
         </div>
       )}
 
-      {!currentStageData && (
-        <div style={{ backgroundColor: 'var(--tertiary-bg)', border: '1px solid var(--tertiary)', borderRadius: 10, padding: 14 }}>
-          <div style={{ fontWeight: 700, color: 'var(--tertiary)' }}>Roadmap complete 🎉</div>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--on-surface-dim)', marginTop: 4 }}>All stages verified. Pick a new goal or revise weak areas with the AI Kernel.</div>
-        </div>
-      )}
+      {/* ── 3. TELEMETRY BENTO GRID (RESPONSIVE: 1 col on small, 2 cols on medium+) ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Weekly Target Card */}
+        <div className="sp-card p-4 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-[var(--on-surface-dim)]">
+            <span className="text-xs font-semibold uppercase tracking-wider">Weekly Target</span>
+            <span className="material-symbols-outlined text-[18px] text-[var(--primary)]">query_stats</span>
+          </div>
 
-      {/* ── WEEKLY + STREAK GRID ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-        {/* Weekly target */}
-        <div style={{
-          backgroundColor: 'var(--surface-low)', border: '1px solid var(--border)',
-          borderRadius: 8, padding: 10, display: 'flex', flexDirection: 'column', gap: 6,
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--on-surface-dim)' }}>Weekly Target</span>
-            <span className="material-symbols-outlined" style={{ fontSize: 15, color: 'var(--primary)' }}>query_stats</span>
-          </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 3, marginBottom: 4 }}>
-              <span style={{ fontSize: '1.375rem', fontWeight: 700, color: 'var(--on-surface)' }}>{progress.weeklyHours || 0}</span>
-              <span className="mono" style={{ fontSize: '0.75rem', color: 'var(--on-surface-dim)' }}>/ {progress.weeklyTarget || 8}h</span>
+          <div className="my-3">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-bold text-[var(--on-surface)] leading-none">
+                {progress.weeklyHours || 0}
+              </span>
+              <span className="mono text-xs text-[var(--on-surface-dim)]">
+                / {progress.weeklyTarget || 8}.0h logged
+              </span>
             </div>
-            <ProgressBar value={progress.weeklyHours || 0} max={progress.weeklyTarget || 8} color="tertiary" height={5} />
+            <div className="mt-2.5">
+              <ProgressBar value={progress.weeklyHours || 0} max={progress.weeklyTarget || 8} color="tertiary" height={6} />
+            </div>
           </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--tertiary)', display: 'flex', alignItems: 'center', gap: 3 }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 13 }}>trending_up</span>
-            {weeklyPct}% {weeklyPct >= 80 ? '(On Track)' : weeklyPct >= 50 ? '(Keep Going)' : '(Needs Push)'}
-          </span>
+
+          <div className="text-xs font-medium text-[var(--tertiary)] flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[15px]">trending_up</span>
+            <span>{weeklyPct}% {weeklyPct >= 80 ? '(On Track)' : '(Active Sprint)'}</span>
+          </div>
         </div>
 
-        {/* Streak */}
-        <div style={{
-          backgroundColor: 'var(--surface-low)', border: '1px solid var(--border)',
-          borderRadius: 8, padding: 10, display: 'flex', flexDirection: 'column', gap: 6,
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--on-surface-dim)' }}>Streak & Eval</span>
-            <span className="material-symbols-outlined" style={{ fontSize: 15, color: 'var(--error)' }}>local_fire_department</span>
+        {/* Streak & Eval Card */}
+        <div className="sp-card p-4 flex flex-col justify-between">
+          <div className="flex items-center justify-between text-[var(--on-surface-dim)]">
+            <span className="text-xs font-semibold uppercase tracking-wider">Streak & Eval</span>
+            <span className="material-symbols-outlined text-[18px] text-[var(--error)]">local_fire_department</span>
           </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 3, marginBottom: 4 }}>
-              <span style={{ fontSize: '1.375rem', fontWeight: 700, color: 'var(--on-surface)' }}>{progress.streak || 0}</span>
-              <span className="mono" style={{ fontSize: '0.75rem', color: 'var(--on-surface-dim)' }}>Days Active</span>
+
+          <div className="my-3">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-bold text-[var(--on-surface)] leading-none">
+                {progress.streak || 0}
+              </span>
+              <span className="mono text-xs text-[var(--on-surface-dim)]">Days Active Run</span>
             </div>
-            <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)' }}>
-              Stage {String(completedCount + 1).padStart(2, '0')} Eval in 4d
+            <div className="mono text-xs text-[var(--on-surface-dim)] mt-2">
+              Stage {String(completedCount + 1).padStart(2, '0')} Telemetry Eval in 4d
             </div>
           </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', display: 'flex', alignItems: 'center', gap: 3 }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 13 }}>event_repeat</span>
-            Sat, 18:00 IST
-          </span>
+
+          <div className="text-xs font-medium text-[var(--secondary-hi)] flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[15px]">event_repeat</span>
+            <span>Saturday, 18:00 IST</span>
+          </div>
         </div>
       </div>
 
-      </div>
-      {/* Right column: diagnostics + history */}
-      <div className="flex flex-col gap-3">
-      {/* ── KNOWLEDGE GAPS ── */}
-      <div className="sp-card" style={{
-        padding: 12,
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 17, color: 'var(--error)' }}>bug_report</span>
-            <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--on-surface)' }}>Knowledge Gaps (Telemetry)</span>
+      {/* ── 4. DIAGNOSTIC WEAK AREAS CARD ── */}
+      <div className="sp-card p-5">
+        <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-[var(--error)] text-[20px]">bug_report</span>
+            <h3 className="text-sm sm:text-base font-bold text-[var(--on-surface)]">
+              Knowledge Gaps (Telemetry)
+            </h3>
           </div>
-          <span style={{
-            fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.06em',
-            backgroundColor: 'var(--error-bg)', color: 'var(--error)',
-            padding: '2px 7px', borderRadius: 2,
-          }}>
+          <span className="badge-alert mono text-[10px] font-bold px-2 py-0.5 rounded">
             {weakAreas.length} FLAGGED
           </span>
         </div>
-        <div style={{ fontSize: '0.8rem', color: 'var(--on-surface-dim)', marginBottom: 8 }}>
-          Extracted from your completed stage assessments & practice runs.
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+
+        <p className="text-xs text-[var(--on-surface-dim)] mb-3 leading-relaxed">
+          Extracted from your completed stage assessments & algorithmic trace runs.
+        </p>
+
+        <div className="flex flex-col gap-2.5">
           {weakAreas.map(w => (
-            <div key={w.id} style={{
-              backgroundColor: 'var(--surface-mid)', borderRadius: 4, padding: '7px 10px',
-              display: 'flex', alignItems: 'flex-start', gap: 7,
-            }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 15, color: 'var(--on-surface-dim)', marginTop: 1, flexShrink: 0 }}>priority_high</span>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--on-surface)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <div
+              key={w.id}
+              className="p-3 bg-[var(--surface-mid)] border border-[var(--border)] rounded-lg flex items-start gap-3 transition-colors hover:border-[var(--primary)]/40"
+            >
+              <span className="material-symbols-outlined text-[17px] text-[var(--secondary-hi)] shrink-0 mt-0.5">
+                priority_high
+              </span>
+              <div className="flex flex-col min-w-0 flex-1">
+                <div className="text-xs sm:text-sm font-semibold text-[var(--on-surface)] truncate">
                   {w.topic}
                 </div>
-                <div style={{ display: 'flex', gap: 5, alignItems: 'center', fontSize: '0.6875rem', color: 'var(--on-surface-dim)', marginTop: 1 }}>
-                  <span style={{ color: w.severity === 'error' ? 'var(--error)' : 'var(--primary)' }}>{w.action}</span>
+                <div className="flex items-center gap-2 text-[11px] font-mono text-[var(--on-surface-dim)] mt-0.5 flex-wrap">
+                  <span className={w.severity === 'error' ? 'text-[var(--error)] font-bold' : 'text-[var(--primary)] font-bold'}>
+                    {w.action}
+                  </span>
                   <span>•</span>
                   <span>{w.time}</span>
                 </div>
@@ -269,110 +271,97 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
+
         <button
-          className="sp-btn-secondary"
-          onClick={() => setShowQuiz(true)}
-          style={{ marginTop: 10, width: '100%', padding: '7px 0', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}
+          onClick={() => {
+            sound.playPop()
+            setShowQuiz(true)
+          }}
+          className="sp-btn-secondary w-full py-2.5 px-4 mt-3.5 text-xs font-mono font-bold flex items-center justify-center gap-2 text-[var(--primary)]"
         >
-          <span className="material-symbols-outlined" style={{ fontSize: 15 }}>quiz</span>
-          Generate 5-Min Diagnostic Patch
+          <span className="material-symbols-outlined text-[17px]">quiz</span>
+          <span>Generate 5-Min Diagnostic Patch</span>
         </button>
       </div>
 
-      {/* ── PIPELINE MILESTONES ── */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 2px' }}>
-          <span style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--on-surface-dim)', textTransform: 'uppercase' }}>Pipeline Milestones</span>
-          <span className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)' }}>Track: {trackLabel}</span>
+      {/* ── 5. PIPELINE MILESTONES ── */}
+      <div className="flex flex-col gap-2.5">
+        <div className="flex items-center justify-between text-xs px-1 text-[var(--on-surface-dim)] font-mono font-semibold tracking-wider uppercase">
+          <span>Pipeline Milestones</span>
+          <span className="text-[var(--primary)]">Track: {trackLabel}</span>
         </div>
 
-        {/* Last completed */}
+        {/* Completed Milestone */}
         {lastCompleted && (
-          <div style={{
-            backgroundColor: 'var(--surface)', border: '1px solid var(--border)',
-            borderRadius: 8, padding: '8px 10px',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-              <div style={{
-                width: 32, height: 32, borderRadius: 6, flexShrink: 0,
-                backgroundColor: 'var(--tertiary-bg)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 17, color: 'var(--tertiary)' }}>check_circle</span>
+          <div className="p-3.5 bg-[var(--surface-low)] border border-[var(--border)] rounded-xl flex items-center justify-between gap-3 shadow-sm">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-[var(--tertiary-bg)] border border-[var(--tertiary)]/30 text-[var(--tertiary)] flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-[18px]">check_circle</span>
               </div>
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--on-surface)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs sm:text-sm font-bold text-[var(--on-surface)] truncate">
                   {String(lastCompleted.stage).padStart(2, '0')} {lastCompleted.title}
-                </div>
-                <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--tertiary)' }}>
+                </span>
+                <span className="mono text-[11px] text-[var(--tertiary)] font-semibold">
                   Verified{lastCompleted.score ? ` • Score: ${lastCompleted.score}%` : ''}
-                </div>
+                </span>
               </div>
             </div>
-            <span className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)', flexShrink: 0, marginLeft: 8 }}>
+            <span className="mono text-xs text-[var(--on-surface-dim)] shrink-0">
               {lastCompleted.completedAt || 'Done'}
             </span>
           </div>
         )}
 
-        {/* Next locked */}
+        {/* Next Locked Stage */}
         {nextLockedStage && (
-          <div style={{
-            backgroundColor: 'var(--surface)', border: '1px solid var(--border)',
-            borderRadius: 8, padding: '8px 10px', opacity: 0.7,
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-              <div style={{
-                width: 32, height: 32, borderRadius: 6, flexShrink: 0,
-                backgroundColor: 'var(--surface-mid)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 17, color: 'var(--on-surface-dim)' }}>lock</span>
+          <div className="p-3.5 bg-[var(--surface-low)]/60 border border-[var(--border)] rounded-xl flex items-center justify-between gap-3 opacity-70">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-[var(--surface-mid)] border border-[var(--border)] text-[var(--on-surface-dim)] flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-[18px]">lock</span>
               </div>
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--on-surface-dim)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs sm:text-sm font-semibold text-[var(--secondary-hi)] truncate">
                   {String(nextLockedStage.stage).padStart(2, '0')} {nextLockedStage.title}
-                </div>
-                <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)' }}>
+                </span>
+                <span className="mono text-[11px] text-[var(--on-surface-dim)]">
                   Prerequisite: Stage {String(nextLockedStage.stage - 1).padStart(2, '0')} Verified
-                </div>
+                </span>
               </div>
             </div>
-            <span className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)', flexShrink: 0, marginLeft: 8 }}>Queued</span>
+            <span className="mono text-xs text-[var(--on-surface-dim)] shrink-0">Queued</span>
           </div>
         )}
       </div>
 
-      {/* ── ACTIVITY LOG ── */}
-      <div style={{
-        backgroundColor: 'var(--surface)', border: '1px solid var(--border)',
-        borderRadius: 10, padding: 12,
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, paddingBottom: 8, borderBottom: '1px solid var(--border)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 15, color: 'var(--primary)' }}>history</span>
-            <span className="mono" style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--on-surface)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Kernel Activity Log</span>
+      {/* ── 6. KERNEL ACTIVITY LOG ── */}
+      <div className="sp-card p-4 sm:p-5">
+        <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[var(--border)]">
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-[var(--primary)] text-[16px]">history</span>
+            <span className="mono text-xs font-bold text-[var(--on-surface)] uppercase tracking-wider">
+              Kernel Activity Log
+            </span>
           </div>
-          <span className="mono" style={{ fontSize: '0.6rem', color: 'var(--on-surface-dim)' }}>Last synced: 2m ago</span>
+          <span className="mono text-[10px] text-[var(--on-surface-dim)]">Real-time sync</span>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+
+        <div className="flex flex-col gap-2 font-mono text-xs">
           {activity.slice(0, 5).map((a, i) => (
-            <div key={a.id || i} style={{
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              padding: '5px 0',
-              borderBottom: i < Math.min(activity.length, 5) - 1 ? '1px solid var(--border)' : 'none',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                <span className="mono" style={{ color: `var(--${a.color || 'primary'})`, fontWeight: 700, fontSize: '0.875rem', flexShrink: 0 }}>&gt;</span>
-                <span style={{ fontSize: '0.8125rem', color: 'var(--on-surface)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.text}</span>
+            <div
+              key={a.id || i}
+              className="flex items-center justify-between py-1.5 text-[var(--on-surface-dim)] gap-3 border-b border-[var(--border)]/40 last:border-none"
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="text-[var(--primary)] font-bold shrink-0">&gt;</span>
+                <span className="text-[var(--on-surface)] truncate font-sans text-xs">
+                  {a.text}
+                </span>
               </div>
-              <span className="mono" style={{ fontSize: '0.6rem', color: 'var(--on-surface-dim)', flexShrink: 0, marginLeft: 8 }}>{a.time}</span>
+              <span className="text-[11px] text-[var(--secondary)] shrink-0">{a.time}</span>
             </div>
           ))}
         </div>
-      </div>
       </div>
     </div>
   )

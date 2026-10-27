@@ -37,7 +37,7 @@ export default function Profile() {
     .split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')
 
   return (
-    <div style={{ padding: '16px', maxWidth: 560, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div className="w-full flex flex-col gap-4">
       {/* Profile hero */}
       <div style={{
         backgroundColor: 'var(--surface-low)', border: '1px solid var(--border)',

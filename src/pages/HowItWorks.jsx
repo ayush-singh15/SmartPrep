@@ -10,7 +10,7 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <div style={{ padding: '16px', maxWidth: 600, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div className="w-full flex flex-col gap-5">
       {/* Title */}
       <div style={{ textAlign: 'center' }}>
         <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', fontWeight: 600, letterSpacing: '0.08em', marginBottom: 6 }}>

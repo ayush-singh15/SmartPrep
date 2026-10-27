@@ -91,7 +91,7 @@ export default function StudySession({ onClose }) {
         background: 'linear-gradient(145deg, var(--surface-low) 0%, rgba(16, 24, 38, 0.98) 100%)',
         border: '1px solid var(--border-bright)',
         borderRadius: 16, padding: 26,
-        width: '100%', maxWidth: 380,
+        width: '100%', maxWidth: 380, maxHeight: '90vh', overflowY: 'auto',
         display: 'flex', flexDirection: 'column', gap: 18,
         boxShadow: '0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px var(--primary-glow)',
       }}>

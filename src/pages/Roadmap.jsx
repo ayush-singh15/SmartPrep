@@ -16,7 +16,7 @@ export default function Roadmap() {
   const completedCount = (progress.completedStages || []).length
 
   return (
-    <div style={{ padding: '16px', maxWidth: 760, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div className="w-full flex flex-col gap-4">
       {showSession && <StudySession onClose={() => setShowSession(false)} />}
 
       {/* Header */}

@@ -136,11 +136,11 @@ export default function RoadmapStage({ stage, isLast }) {
               <div style={{
                 fontSize: '0.9375rem', fontWeight: 600,
                 color: 'var(--on-surface)', textAlign: 'left',
-                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                wordBreak: 'break-word', lineHeight: 1.3,
               }}>
                 Stage {stage.stage} — {stage.title}
               </div>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 3 }}>
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 4, flexWrap: 'wrap' }}>
                 <span className={`mono ${cfg.badgeClass}`} style={{
                   fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.06em',
                   padding: '1px 6px', borderRadius: 4,

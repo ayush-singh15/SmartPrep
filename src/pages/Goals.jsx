@@ -8,7 +8,7 @@ export default function Goals() {
   const [showCustom, setShowCustom] = useState(false)
 
   return (
-    <div style={{ padding: '16px', maxWidth: 1000, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div className="w-full flex flex-col gap-4">
       {/* Header */}
       <div>
         <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', fontWeight: 600, letterSpacing: '0.06em', marginBottom: 3 }}>GOAL SELECTION</div>

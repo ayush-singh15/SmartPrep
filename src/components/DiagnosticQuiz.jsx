@@ -88,7 +88,7 @@ export default function DiagnosticQuiz({ onClose, onComplete }) {
         background: 'linear-gradient(145deg, var(--surface-low) 0%, rgba(16, 24, 38, 0.98) 100%)',
         border: '1px solid var(--border-bright)',
         borderRadius: 16, padding: 24,
-        width: '100%', maxWidth: 520,
+        width: '100%', maxWidth: 520, maxHeight: '90vh', overflowY: 'auto',
         boxShadow: '0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px var(--primary-glow)',
       }}>
         {/* Header */}
