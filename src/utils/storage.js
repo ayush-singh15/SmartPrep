@@ -8,6 +8,8 @@ export const STORAGE_KEYS = {
   SESSIONS: 'smartprep_sessions',
   ACTIVITY: 'smartprep_activity',
   THEME: 'smartprep_theme',
+  AUTH: 'smartprep_auth',           // active session { userId, email, rollNo, name, token, loggedInAt }
+  ACCOUNTS: 'smartprep_accounts',   // local student registry (offline-first auth fallback)
 }
 
 export function getItem(key, defaultValue) {

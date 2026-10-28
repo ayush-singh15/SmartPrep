@@ -10,7 +10,7 @@ const FEATURES = [
 
 export default function Landing() {
   const navigate = useNavigate()
-  const { profile, progress } = useApp()
+  const { profile, progress, logout } = useApp()
 
   return (
     <div style={{ padding: '24px 16px 24px', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 28 }}>
@@ -33,7 +33,7 @@ export default function Landing() {
           Build Your Career Stack
         </h1>
         <p style={{ fontSize: '0.9rem', color: 'var(--on-surface-dim)', lineHeight: 1.6, marginBottom: 20 }}>
-          AI-powered personalised roadmaps for B.Tech CSE students. Learn in order, track progress, ship your career.
+          AI-powered personalised roadmaps for tech students & self-taught developers. Learn in order, track progress, ship your career.
         </p>
         <button
           className="sp-btn-primary"
@@ -51,6 +51,15 @@ export default function Landing() {
           style={{ padding: '9px 32px', fontSize: '0.875rem', borderRadius: 6, width: '100%', marginTop: 8 }}
         >
           Browse Goals
+        </button>
+        <button
+          id="landing-switch-btn"
+          className="sp-auth-link"
+          onClick={() => { logout(); navigate('/login', { replace: true }) }}
+          style={{ marginTop: 12, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: 16 }}>switch_account</span>
+          Not {profile.name?.split(' ')[0]}? Switch student
         </button>
       </div>
 

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import BottomNavigation from './components/BottomNavigation'
@@ -9,8 +9,27 @@ import Assistant from './pages/Assistant'
 import HowItWorks from './pages/HowItWorks'
 import Profile from './pages/Profile'
 import Landing from './pages/Landing'
+import Login from './pages/Login'
+import { useApp } from './hooks/AppContext'
 
 export default function App() {
+  const location = useLocation()
+  const { isAuthenticated } = useApp()
+
+  // Login is a full-screen, distraction-free page (no navbar / sidebar / bottom bar)
+  if (location.pathname === '/login') {
+    return (
+      <div className="min-h-screen bg-[var(--surface)] text-[var(--on-surface)] antialiased">
+        <Login />
+      </div>
+    )
+  }
+
+  // Everything else requires a signed-in student
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />
+  }
+
   return (
     <div className="min-h-screen bg-[var(--surface)] text-[var(--on-surface)] flex flex-col antialiased selection:bg-teal-500/20 selection:text-teal-300">
       <Navbar />

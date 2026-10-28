@@ -371,5 +371,43 @@
         "estimatedHours": 18
       }
     ]
-  }
+  },
+  "users": [
+    {
+      "id": "demo-ayush",
+      "name": "Ayush Kumar Singh",
+      "username": "ayush",
+      "email": "ayush@smartprep.com",
+      "goalId": "backend-developer",
+      "passwordHash": "be694953b4d7473e3e4f951473ee5cfc2d21f0c2ac83e213025e44a32ac57fc1",
+      "createdAt": "2026-10-28T18:48:19.459Z"
+    },
+    {
+      "id": "demo-priya",
+      "name": "Priya Sharma",
+      "username": "priya",
+      "email": "priya@smartprep.com",
+      "goalId": "ai-ml",
+      "passwordHash": "be694953b4d7473e3e4f951473ee5cfc2d21f0c2ac83e213025e44a32ac57fc1",
+      "createdAt": "2026-10-28T18:48:19.460Z"
+    },
+    {
+      "id": "demo-fresh",
+      "name": "Alex Carter",
+      "username": "alex",
+      "email": "alex@smartprep.com",
+      "goalId": "placement-prep",
+      "passwordHash": "be694953b4d7473e3e4f951473ee5cfc2d21f0c2ac83e213025e44a32ac57fc1",
+      "createdAt": "2026-10-28T18:48:19.460Z"
+    },
+    {
+      "id": "user-mvsi981q",
+      "name": "Developer Dev",
+      "username": "devpro",
+      "email": "dev@smartprep.com",
+      "goalId": "full-stack",
+      "passwordHash": "bf769fb3bb6ab102ebd2fbaf015cc46063ef76c3c877c711dde335de2b2baabe",
+      "createdAt": "2026-10-28T19:26:18.878Z"
+    }
+  ]
 }

@@ -1,12 +1,31 @@
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useApp } from '../hooks/AppContext'
 import ThemeToggle from './ThemeToggle'
 import { sound } from '../utils/sound'
 
 export default function Navbar() {
-  const { profile, progress } = useApp()
+  const { profile, progress, auth, logout } = useApp()
   const navigate = useNavigate()
   const location = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const close = (e) => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false) }
+    const esc = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
+    document.addEventListener('mousedown', close)
+    document.addEventListener('keydown', esc)
+    return () => { document.removeEventListener('mousedown', close); document.removeEventListener('keydown', esc) }
+  }, [menuOpen])
+
+  function handleSignOut() {
+    sound.playPop()
+    setMenuOpen(false)
+    logout()
+    navigate('/login', { replace: true })
+  }
 
   const goalLabel = (progress.goalId || 'backend-developer')
     .split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ').replace('Developer', 'Dev')
@@ -59,19 +78,53 @@ export default function Navbar() {
 
           <ThemeToggle />
 
-          {/* Profile Avatar */}
-          <button
-            onClick={() => {
-              sound.playPop()
-              navigate('/profile')
-            }}
-            title="Open Profile"
-            className="w-8 h-8 rounded-full bg-[var(--primary-gradient)] flex items-center justify-center text-white font-bold text-xs shadow-sm hover:ring-2 hover:ring-[var(--primary)]/40 transition-all"
-          >
-            {(profile.name || 'A')[0].toUpperCase()}
-          </button>
+          {/* Profile Avatar + account menu */}
+          <div className="relative" ref={menuRef}>
+            <button
+              id="account-menu-btn"
+              onClick={() => {
+                sound.playPop()
+                setMenuOpen(o => !o)
+              }}
+              title="Account"
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              className="w-8 h-8 rounded-full bg-[var(--primary-gradient)] flex items-center justify-center text-white font-bold text-xs shadow-sm hover:ring-2 hover:ring-[var(--primary)]/40 transition-all"
+            >
+              {(profile.name || 'A')[0].toUpperCase()}
+            </button>
+            {menuOpen && (
+              <div role="menu" className="sp-fadein absolute right-0 mt-2 w-60 rounded-xl border border-[var(--border)] bg-[var(--surface-low)] shadow-2xl overflow-hidden">
+                <div className="px-4 py-3 border-b border-[var(--border)]">
+                  <div className="text-sm font-semibold text-[var(--on-surface)] truncate">{profile.name}</div>
+                  <div className="mono text-[11px] text-[var(--primary)] truncate font-semibold">
+                    {auth?.username ? `@${auth.username}` : (auth?.email || 'Student')}
+                  </div>
+                </div>
+                <MenuItem id="menu-profile" icon="person" label="Profile & Settings" onClick={() => { setMenuOpen(false); navigate('/profile') }} />
+                <MenuItem id="menu-switch" icon="switch_account" label="Switch account" onClick={handleSignOut} />
+                <MenuItem id="menu-signout" icon="logout" label="Sign out" danger onClick={handleSignOut} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
+  )
+}
+
+function MenuItem({ id, icon, label, onClick, danger }) {
+  return (
+    <button
+      id={id}
+      role="menuitem"
+      onClick={onClick}
+      className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left transition-colors hover:bg-[var(--surface-mid)] ${
+        danger ? 'text-[var(--error)]' : 'text-[var(--on-surface)]'
+      }`}
+    >
+      <span className="material-symbols-outlined text-[18px]">{icon}</span>
+      {label}
+    </button>
   )
 }

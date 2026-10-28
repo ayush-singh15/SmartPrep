@@ -23,7 +23,9 @@ async function request(endpoint, options = {}) {
   try {
     const res = await fetch(url, config)
     if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`)
+      const err = new Error(`HTTP ${res.status}: ${res.statusText}`)
+      err.status = res.status
+      throw err
     }
     const json = await res.json()
     return json.data || json
@@ -41,6 +43,21 @@ export const api = {
 
   async getApiDocs() {
     return request('/')
+  },
+
+  // Authentication
+  async login(credentials) {
+    return request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    })
+  },
+
+  async register(studentData) {
+    return request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(studentData),
+    })
   },
 
   // Student Profile

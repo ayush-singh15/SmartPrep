@@ -5,6 +5,7 @@ import {
   BACKEND_ROADMAP, OTHER_ROADMAPS,
 } from '../data/mockData';
 import { api } from '../services/api';
+import * as authService from '../services/auth';
 
 const AppContext = createContext(null);
 
@@ -40,10 +41,20 @@ export function AppProvider({ children }) {
   const [activity, setActivityState] = useState(() => getItem(STORAGE_KEYS.ACTIVITY, DEFAULT_ACTIVITY));
   const [theme, setThemeState] = useState(() => getItem(STORAGE_KEYS.THEME, 'dark'));
   const [backendStatus, setBackendStatus] = useState('checking'); // 'online' | 'offline' | 'checking'
+  const [auth, setAuthState] = useState(() => getItem(STORAGE_KEYS.AUTH, null));
+  const isAuthenticated = !!auth?.userId;
 
   // Hydrate from backend asynchronously on mount
   useEffect(() => {
     async function syncWithBackend() {
+      // The Express store is single-tenant and holds the default demo student,
+      // so only pull its data when that student is the one signed in.
+      const sessionUser = getItem(STORAGE_KEYS.AUTH, null)?.userId;
+      if (sessionUser !== 'demo-ayush') {
+        try { await api.checkHealth(); setBackendStatus('online'); }
+        catch { setBackendStatus('offline'); }
+        return;
+      }
       try {
         const [prof, prog] = await Promise.all([
           api.getProfile().catch(() => null),
@@ -74,6 +85,35 @@ export function AppProvider({ children }) {
 
     syncWithBackend();
   }, []);
+
+  // Keep the signed-in student's account record in sync with their live data
+  useEffect(() => {
+    if (!auth?.userId) return;
+    authService.snapshotAccount(auth.userId, { profile, progress, activity, sessions });
+  }, [auth, profile, progress, activity, sessions]);
+
+  const applySession = useCallback(({ account, session }) => {
+    const prof = account.profile || DEFAULT_PROFILE;
+    const prog = account.progress || DEFAULT_PROGRESS;
+    const act = account.activity || [];
+    const sess = account.sessions || [];
+    setProfileState(prof); setItem(STORAGE_KEYS.PROFILE, prof);
+    setProgressState(prog); setItem(STORAGE_KEYS.PROGRESS, prog);
+    setActivityState(act); setItem(STORAGE_KEYS.ACTIVITY, act);
+    setSessionsState(sess); setItem(STORAGE_KEYS.SESSIONS, sess);
+    setAuthState(session); setItem(STORAGE_KEYS.AUTH, session);
+    return session;
+  }, []);
+
+  const login = useCallback(async (credentials) => applySession(await authService.login(credentials)), [applySession]);
+  const register = useCallback(async (data) => applySession(await authService.register(data)), [applySession]);
+  const demoLogin = useCallback(async (demoId) => applySession(await authService.demoLogin(demoId)), [applySession]);
+
+  const logout = useCallback(() => {
+    if (auth?.userId) authService.snapshotAccount(auth.userId, { profile, progress, activity, sessions });
+    localStorage.removeItem(STORAGE_KEYS.AUTH);
+    setAuthState(null);
+  }, [auth, profile, progress, activity, sessions]);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -200,22 +240,26 @@ export function AppProvider({ children }) {
 
   // Reset demo state across both local storage and server
   const resetDemo = useCallback(async () => {
-    Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k));
-    setProfileState(DEFAULT_PROFILE);
-    setProgressState(DEFAULT_PROGRESS);
+    // Keep the session and account registry so a reset doesn't sign the student out
+    const keep = [STORAGE_KEYS.AUTH, STORAGE_KEYS.ACCOUNTS, STORAGE_KEYS.THEME];
+    Object.values(STORAGE_KEYS).filter(k => !keep.includes(k)).forEach(k => localStorage.removeItem(k));
+    const seed = authService.getResetState(auth?.userId, profile);
+    setProfileState(seed.profile);
+    setProgressState(seed.progress);
     setSessionsState([]);
-    setActivityState(DEFAULT_ACTIVITY);
+    setActivityState(seed.activity);
 
     try {
-      await api.resetAll();
+      if (!auth?.userId || auth.userId === 'demo-ayush') await api.resetAll();
     } catch {
       // Local reset completed
     }
-  }, []);
+  }, [auth, profile]);
 
   return (
     <AppContext.Provider value={{
       profile, progress, sessions, activity, theme, backendStatus,
+      auth, isAuthenticated, login, register, demoLogin, logout,
       toggleTheme, updateProfile, selectGoal, completeStage, toggleTopic, addStudySession, getRoadmap, resetDemo
     }}>
       {children}

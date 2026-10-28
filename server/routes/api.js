@@ -5,6 +5,7 @@ import { getProgress, logSession } from '../controllers/progressController.js'
 import { queryKernel } from '../controllers/aiController.js'
 import { getQuiz, submitQuiz } from '../controllers/diagnosticController.js'
 import { resetAll } from '../controllers/resetController.js'
+import { login, register } from '../controllers/authController.js'
 
 const router = Router()
 
@@ -19,6 +20,8 @@ router.get('/', (req, res) => {
     endpoints: [
       { method: 'GET', path: '/api', desc: 'Interactive API catalog & service metadata' },
       { method: 'GET', path: '/api/health', desc: 'System health & uptime check' },
+      { method: 'POST', path: '/api/auth/login', desc: 'Student sign-in with roll number / email + password' },
+      { method: 'POST', path: '/api/auth/register', desc: 'New student enrollment' },
       { method: 'GET', path: '/api/profile', desc: 'Fetch student profile data' },
       { method: 'PUT', path: '/api/profile', desc: 'Update student profile fields' },
       { method: 'GET', path: '/api/goals', desc: 'List all available career tracks' },
@@ -46,6 +49,10 @@ router.get('/health', (req, res) => {
     uptime: process.uptime()
   })
 })
+
+// Authentication
+router.post('/auth/login', login)
+router.post('/auth/register', register)
 
 // Profile routes
 router.get('/profile', getProfile)

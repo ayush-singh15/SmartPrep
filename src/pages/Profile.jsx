@@ -8,7 +8,7 @@ const SEMESTERS = ['1st Semester', '2nd Semester', '3rd Semester', '4th Semester
 const STUDY_HOURS = ['1', '2', '3', '4', '5', '6']
 
 export default function Profile() {
-  const { profile, updateProfile, progress, selectGoal, theme, toggleTheme, resetDemo } = useApp()
+  const { profile, updateProfile, progress, selectGoal, theme, toggleTheme, resetDemo, logout, auth } = useApp()
   const navigate = useNavigate()
   const [editing, setEditing] = useState(false)
   const [form, setForm] = useState({ ...profile })
@@ -56,13 +56,13 @@ export default function Profile() {
           <div style={{ fontSize: '0.8125rem', color: 'var(--on-surface-dim)' }}>
             {profile.degree} — {profile.branch} (Sec {profile.section || '2-A'})
           </div>
-          <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', marginTop: 2 }}>
-            Roll No: {profile.rollNo || '2501530100037'} • {profile.year} • {profile.semester}
+          <div className="mono" style={{ fontSize: '0.75rem', color: 'var(--primary)', marginTop: 2, fontWeight: 600 }}>
+            @{auth?.username || profile.username || 'student'} • {auth?.email || profile.email || 'Active Learner'}
           </div>
         </div>
         <button
           className={editing ? 'sp-btn-secondary' : 'sp-btn-primary'}
-          onClick={() => { if (editing) handleSave(); else setEditing(true) }}
+          onClick={() => { if (editing) handleSave(); else { setForm({ ...profile }); setEditing(true) } }}
           style={{ padding: '6px 14px', fontSize: '0.8125rem', flexShrink: 0 }}
         >
           {editing ? 'Save' : 'Edit'}
@@ -235,10 +235,19 @@ export default function Profile() {
           View Full Roadmap
         </button>
         <button
-          onClick={() => { if (window.confirm('Reset all data to the demo state?')) { resetDemo(); setForm({ name: 'Ayush', degree: 'B.Tech', branch: 'CSE', year: '2nd Year', semester: '3rd Semester', dailyStudyHours: 2 }) } }}
+          onClick={() => { if (window.confirm('Reset your data to its starting state?')) { resetDemo(); setEditing(false) } }}
           style={{ width: '100%', padding: '8px 0', fontSize: '0.8125rem', borderRadius: 4, background: 'transparent', border: '1px solid var(--error)', color: 'var(--error)', cursor: 'pointer' }}
         >
           Reset Demo Data
+        </button>
+        <button
+          id="profile-signout-btn"
+          onClick={() => { logout(); navigate('/login', { replace: true }) }}
+          className="sp-btn-secondary"
+          style={{ width: '100%', padding: '8px 0', fontSize: '0.875rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, cursor: 'pointer' }}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: 16 }}>logout</span>
+          Sign Out / Switch Student
         </button>
       </Section>
     </div>
