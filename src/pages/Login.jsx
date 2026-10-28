@@ -187,7 +187,7 @@ export default function Login() {
             <div className="sp-auth-session sp-fadein">
               <span className="material-symbols-outlined">verified_user</span>
               <div>
-                <div>Signed in as <strong>{auth.name}</strong> (@{auth.username || 'student'})</div>
+                <div>Signed in as <strong>{auth?.name || 'Student'}</strong> (@{auth?.username || 'student'})</div>
                 <div className="sp-auth-session-actions">
                   <button type="button" id="continue-session-btn" onClick={() => navigate('/dashboard')}>Continue</button>
                   <span>·</span>

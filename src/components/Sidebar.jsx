@@ -8,7 +8,7 @@ import { sound } from '../utils/sound'
 export default function Sidebar() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { progress, profile, logout } = useApp()
+  const { progress, profile, logout, auth } = useApp()
   const items = [...NAV_ITEMS, { path: '/profile', icon: 'settings', label: 'Profile' }]
 
   return (

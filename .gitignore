@@ -32,3 +32,4 @@ __pycache__
 generate_*.py
 
 .vercel
+.env*
