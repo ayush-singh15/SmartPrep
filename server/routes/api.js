@@ -6,6 +6,7 @@ import { queryKernel } from '../controllers/aiController.js'
 import { getQuiz, submitQuiz } from '../controllers/diagnosticController.js'
 import { resetAll } from '../controllers/resetController.js'
 import { login, register } from '../controllers/authController.js'
+import { runCode } from '../controllers/codeController.js'
 
 const router = Router()
 
@@ -71,6 +72,7 @@ router.post('/progress/session', logSession)
 
 // AI Kernel Assistant
 router.post('/ai/kernel', queryKernel)
+router.post('/code/run', runCode)
 
 // Diagnostic Telemetry & Quiz
 router.get('/diagnostic/quiz', getQuiz)
@@ -80,4 +82,5 @@ router.post('/diagnostic/submit', submitQuiz)
 router.post('/reset', resetAll)
 
 export default router
+
 

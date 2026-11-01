@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useApp } from '../hooks/AppContext'
+import { api } from '../services/api'
 
 const SHEET = [
   { topic: 'Arrays & Hashing', items: ['Two Sum', 'Best Time to Buy and Sell Stock', 'Contains Duplicate'] },
@@ -23,6 +24,12 @@ export default function PracticeBoard() {
   const [selected, setSelected] = useState(null)
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState(null)
+  const [solution, setSolution] = useState('')
+  const [language, setLanguage] = useState('JavaScript')
+  const [runResult, setRunResult] = useState(null)
+  const [running, setRunning] = useState(false)
+  const [testCases, setTestCases] = useState([{ id: 1, input: '', expected: '' }])
+  const [solutionFeedback, setSolutionFeedback] = useState(null)
 
   const done = practice.filter(item => item.status === 'done').length
   const topics = useMemo(() => Array.from(new Set(practice.map(item => item.topic).filter(Boolean))), [practice])
@@ -48,6 +55,44 @@ export default function PracticeBoard() {
     setSelected(item)
     setAnswer('')
     setFeedback(null)
+    setSolution('')
+    setLanguage('JavaScript')
+    setRunResult(null)
+    setSolutionFeedback(null)
+  }
+
+  function updateTestCase(id, field, value) { setTestCases(cases => cases.map(test => test.id === id ? { ...test, [field]: value } : test)) }
+
+  async function runSolution(e) {
+    e.preventDefault()
+    const text = solution.trim()
+    if (text.length < 10) {
+      setRunResult({ type: 'error', text: 'Add a solution before running it.' })
+      return
+    }
+    setRunning(true)
+    try {
+      const result = await api.runCode({ language, code: text, testCases })
+      setRunResult({
+        type: result.status === 'accepted-for-review' ? 'success' : 'error',
+        text: result.message || 'Backend validation complete.',
+      })
+    } catch {
+      setRunResult({ type: 'error', text: 'The backend runner is unavailable. Your solution was not executed.' })
+    } finally {
+      setRunning(false)
+    }
+  }
+  function reviewSolution(e) {
+    e.preventDefault()
+    const text = solution.trim()
+    if (text.length < 30) { setSolutionFeedback({ type: 'hint', text: 'Please add a more complete solution before checking it.' }); return }
+    const hasCode = /(function|class|return|for|while|if|const|let|int|public|def)/i.test(text)
+    const hasReasoning = /(complexity|because|approach|algorithm|time|space)/i.test(text)
+    const quality = hasCode && hasReasoning ? 'good' : 'needs-detail'
+    const message = quality === 'good' ? 'Your solution contains code and reasoning. Review the edge cases, then mark the question solved.' : 'Add both the implementation and a short explanation of the approach and complexity.'
+    recordPracticeAttempt({ questionId: selected.id, title: selected.title, topic: selected.topic, answerLength: text.length, quality, feedback: message })
+    setSolutionFeedback({ type: quality === 'good' ? 'success' : 'hint', text: message })
   }
 
   function reviewAnswer(e) {
@@ -83,9 +128,22 @@ export default function PracticeBoard() {
       <div className="sp-practice-list">{questions.length === 0 ? <div className="sp-practice-empty"><span className="material-symbols-outlined">playlist_add</span><p>Your queue is empty. Add a question or pick one from the topic sheet.</p></div> : questions.map(item => <div className={`sp-practice-item ${item.status === 'done' ? 'is-done' : ''}`} key={item.id}><button className="sp-practice-check" onClick={() => togglePracticeQuestion(item.id)} aria-label="Toggle solved"><span className="material-symbols-outlined">{item.status === 'done' ? 'check_circle' : 'radio_button_unchecked'}</span></button><button className="sp-practice-copy sp-practice-open-answer" onClick={() => openReview(item)}><strong>{item.title}</strong><span>{item.topic || 'General practice'} · {item.source} · explain your approach</span></button>{item.url && <a href={item.url} target="_blank" rel="noreferrer" className="sp-practice-open"><span className="material-symbols-outlined">open_in_new</span></a>}<button className="sp-practice-delete" onClick={() => removePracticeQuestion(item.id)} aria-label="Delete question"><span className="material-symbols-outlined">delete</span></button></div>)}</div>
     </main>
     {showSheet && <aside className="sp-sheet"><div className="sp-sheet-header"><div><span className="sp-eyebrow">SmartPrep topic sheet</span><h2>Pick today’s topic</h2></div><span className="sp-sheet-count">{SHEET.length} topics</span></div>{SHEET.map(group => <section key={group.topic} className="sp-sheet-group"><h3>{group.topic}</h3>{group.items.map(title => { const already = practice.some(item => item.title === title); return <button key={title} disabled={already} onClick={() => addSheetQuestion(title, group.topic)}><span className="material-symbols-outlined">{already ? 'check_circle' : 'add_circle'}</span><span>{title}</span></button> })}</section>)}<p className="sp-sheet-note">A curated SmartPrep starter sheet. We can expand it with difficulty, daily plans, explanations, and leaderboards next.</p></aside>}
-    {selected && <div className="sp-answer-modal"><div className="sp-answer-card"><button className="sp-answer-close" onClick={() => setSelected(null)} aria-label="Close review"><span className="material-symbols-outlined">close</span></button><span className="sp-eyebrow">Explain your solution</span><h2>{selected.title}</h2><p>Write your approach in your own words. SmartPrep checks whether you included an idea, complexity, and edge case.</p><form onSubmit={reviewAnswer}><textarea autoFocus value={answer} onChange={e => setAnswer(e.target.value)} placeholder="I would solve this by..." rows={7} /><button className="sp-btn-primary" type="submit">Check my explanation</button></form>{feedback && <div className={`sp-answer-feedback ${feedback.type}`}><span className="material-symbols-outlined">{feedback.type === 'success' ? 'check_circle' : 'lightbulb'}</span>{feedback.text}</div>}</div></div>}
+    {selected && <div className="sp-answer-modal"><div className="sp-answer-card"><button className="sp-answer-close" onClick={() => setSelected(null)} aria-label="Close review"><span className="material-symbols-outlined">close</span></button><span className="sp-eyebrow">Explain your solution</span><h2>{selected.title}</h2><p>Write your approach in your own words. SmartPrep checks whether you included an idea, complexity, and edge case.</p><form onSubmit={reviewAnswer}><textarea autoFocus value={answer} onChange={e => setAnswer(e.target.value)} placeholder="I would solve this by..." rows={7} /><button className="sp-btn-primary" type="submit">Check my explanation</button></form>{feedback && <div className={`sp-answer-feedback ${feedback.type}`}><span className="material-symbols-outlined">{feedback.type === 'success' ? 'check_circle' : 'lightbulb'}</span>{feedback.text}</div>}<form className="sp-solution-form" onSubmit={reviewSolution}><label>Your solution <span>Paste code or write pseudocode</span></label><select className="sp-language-select" value={language} onChange={e => setLanguage(e.target.value)}><option>JavaScript</option><option>Python</option><option>Java</option><option>C++</option></select><textarea value={solution} onChange={e => setSolution(e.target.value)} placeholder="Paste your solution here..." rows={9} /><div className="sp-test-cases"><label>Sample test cases <span>Used by the future sandbox runner</span></label>{testCases.map(test => <div className="sp-test-row" key={test.id}><input placeholder="Input" value={test.input} onChange={e => updateTestCase(test.id, "input", e.target.value)} /><input placeholder="Expected output" value={test.expected} onChange={e => updateTestCase(test.id, "expected", e.target.value)} /></div>)}<button type="button" className="sp-test-add" onClick={() => setTestCases(cases => [...cases, { id: Date.now(), input: "", expected: "" }])}>+ Add test case</button></div><div className="sp-solution-actions"><button className="sp-btn-secondary" type="button" onClick={runSolution}>{running ? "Checking..." : "Run backend check"}</button><button className="sp-btn-secondary" type="submit">Review solution</button></div>{runResult && <div className={`sp-answer-feedback ${runResult.type}`}><span className="material-symbols-outlined">{runResult.type === 'success' ? 'check_circle' : 'error'}</span>{runResult.text}</div>}</form>{solutionFeedback && <div className={`sp-answer-feedback ${solutionFeedback.type}`}><span className="material-symbols-outlined">{solutionFeedback.type === 'success' ? 'check_circle' : 'lightbulb'}</span>{solutionFeedback.text}</div>}</div></div>}
   </div>
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

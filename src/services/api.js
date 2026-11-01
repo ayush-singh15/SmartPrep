@@ -122,6 +122,11 @@ export const api = {
     })
   },
 
+  // Secure code runner adapter (prototype shape validation)
+  async runCode(payload) {
+    return request('/code/run', { method: 'POST', body: JSON.stringify(payload) })
+  },
+
   // Diagnostic Quiz
   async getDiagnosticQuiz() {
     return request('/diagnostic/quiz')
@@ -141,3 +146,4 @@ export const api = {
     })
   },
 }
+
