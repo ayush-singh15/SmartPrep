@@ -26,10 +26,10 @@ export default function Roadmap() {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
           <div>
-            <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', fontWeight: 600, marginBottom: 2 }}>CAREER ROADMAP</div>
+            <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', fontWeight: 600, marginBottom: 2 }}>YOUR LEARNING PATH</div>
             <div style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--on-surface)' }}>{goalLabel}</div>
             <div style={{ fontSize: '0.8rem', color: 'var(--on-surface-dim)', marginTop: 2 }}>
-              {goalData?.subtitle} • {roadmap.length} stages
+              {goalData?.subtitle} · {roadmap.length} learning stages
             </div>
           </div>
           <button
@@ -38,12 +38,12 @@ export default function Roadmap() {
             style={{ padding: '7px 12px', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}
           >
             <span className="material-symbols-outlined" style={{ fontSize: 16 }}>play_arrow</span>
-            Study
+            Start a study session
           </button>
         </div>
         <ProgressBar value={progress.overallPercent || 0} max={100} />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5, fontSize: '0.75rem' }}>
-          <span style={{ color: 'var(--on-surface-dim)' }}>{completedCount} / {roadmap.length} stages complete</span>
+          <span style={{ color: 'var(--on-surface-dim)' }}>{completedCount} of {roadmap.length} stages complete</span>
           <span className="mono" style={{ color: 'var(--primary)' }}>{progress.overallPercent || 0}%</span>
         </div>
       </div>
@@ -57,3 +57,7 @@ export default function Roadmap() {
     </div>
   )
 }
+
+
+
+

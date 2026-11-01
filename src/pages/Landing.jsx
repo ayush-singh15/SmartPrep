@@ -1,114 +1,46 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../hooks/AppContext'
 
-const FEATURES = [
-  { icon: 'adjust', title: 'Goal Selection', desc: 'Choose your career path and get a structured roadmap.' },
-  { icon: 'account_tree', title: 'Prerequisite Roadmap', desc: 'Learn skills in the right order — no wasted effort.' },
-  { icon: 'bar_chart', title: 'Progress Tracking', desc: 'Track completion, study hours, and streaks.' },
-  { icon: 'memory', title: 'AI Guidance', desc: 'Get personalised study recommendations from the AI Kernel.' },
+const PILLARS = [
+  { icon: 'route', title: 'Know what to learn', desc: 'A clear path from your current level to the role you want.' },
+  { icon: 'calendar_month', title: 'Make progress weekly', desc: 'Turn a big career goal into focused, manageable study sessions.' },
+  { icon: 'insights', title: 'See your momentum', desc: 'Track skills, streaks and milestones without another spreadsheet.' },
 ]
+
+const OUTCOMES = ['Choose a career direction', 'Get a prerequisite-first roadmap', 'Build a steady study habit', 'Know your next best step']
 
 export default function Landing() {
   const navigate = useNavigate()
-  const { profile, progress, logout } = useApp()
+  const { profile, progress } = useApp()
+  const firstName = profile.name?.split(' ')[0] || 'student'
 
   return (
-    <div style={{ padding: '24px 16px 24px', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 28 }}>
-      {/* Hero */}
-      <div style={{
-        backgroundColor: 'var(--surface-low)', border: '1px solid var(--border)',
-        borderRadius: 12, padding: 24, textAlign: 'center',
-      }}>
-        <div style={{
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          width: 64, height: 64, borderRadius: 12,
-          backgroundColor: 'var(--primary)', marginBottom: 16,
-        }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 36, color: '#fff' }}>terminal</span>
-        </div>
-        <div className="mono" style={{ color: 'var(--primary)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', marginBottom: 4 }}>
-          SMARTPREP // CAREER OS
-        </div>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--on-surface)', lineHeight: 1.2, marginBottom: 8 }}>
-          Build Your Career Stack
-        </h1>
-        <p style={{ fontSize: '0.9rem', color: 'var(--on-surface-dim)', lineHeight: 1.6, marginBottom: 20 }}>
-          AI-powered personalised roadmaps for tech students & self-taught developers. Learn in order, track progress, ship your career.
-        </p>
-        <button
-          className="sp-btn-primary"
-          onClick={() => navigate('/dashboard')}
-          style={{ padding: '11px 32px', fontSize: '0.9375rem', borderRadius: 6, width: '100%' }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 18 }}>play_arrow</span>
-            Go to Dashboard — {profile.name}
-          </span>
-        </button>
-        <button
-          className="sp-btn-secondary"
-          onClick={() => navigate('/goals')}
-          style={{ padding: '9px 32px', fontSize: '0.875rem', borderRadius: 6, width: '100%', marginTop: 8 }}
-        >
-          Browse Goals
-        </button>
-        <button
-          id="landing-switch-btn"
-          className="sp-auth-link"
-          onClick={() => { logout(); navigate('/login', { replace: true }) }}
-          style={{ marginTop: 12, display: 'inline-flex', alignItems: 'center', gap: 4 }}
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: 16 }}>switch_account</span>
-          Not {profile.name?.split(' ')[0]}? Switch student
-        </button>
-      </div>
-
-      {/* Current goal pill */}
-      <div style={{
-        backgroundColor: 'var(--primary-bg)', border: '1px solid var(--primary)',
-        borderRadius: 8, padding: '10px 14px',
-        display: 'flex', alignItems: 'center', gap: 10,
-      }}>
-        <span className="material-symbols-outlined" style={{ fontSize: 20, color: 'var(--primary)', flexShrink: 0 }}>verified</span>
-        <div style={{ flex: 1 }}>
-          <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', fontWeight: 600 }}>ACTIVE GOAL</div>
-          <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--on-surface)' }}>
-            {(progress.goalId || 'backend-developer').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+    <div className="sp-home">
+      <section className="sp-home-hero">
+        <div className="sp-home-hero-copy">
+          <div className="sp-eyebrow"><span className="sp-eyebrow-dot" /> Built for students who want a direction</div>
+          <h1>Stop guessing.<br /><span>Start preparing.</span></h1>
+          <p className="sp-home-lede">SmartPrep helps you turn a career target into a practical plan — what to learn, what to practise, and what to do next.</p>
+          <div className="sp-home-actions">
+            <button className="sp-btn-primary sp-home-primary" onClick={() => navigate('/dashboard')}>Open my workspace <span className="material-symbols-outlined">arrow_forward</span></button>
+            <button className="sp-btn-secondary sp-home-secondary" onClick={() => navigate('/how-it-works')}>See how it works</button>
           </div>
+          <div className="sp-home-note"><span className="material-symbols-outlined">check_circle</span> Your workspace is ready, {firstName} · {progress.overallPercent || 0}% complete</div>
         </div>
-        <div className="mono" style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--primary)' }}>
-          {progress.overallPercent || 0}%
-        </div>
-      </div>
 
-      {/* Features */}
-      <div>
-        <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)', fontWeight: 600, letterSpacing: '0.06em', marginBottom: 12 }}>
-          CORE MODULES
+        <div className="sp-home-preview" aria-label="SmartPrep workspace preview">
+          <div className="sp-preview-top"><span className="sp-preview-brand"><span className="sp-preview-mark">S</span> SmartPrep</span><span className="sp-preview-status"><i /> on track</span></div>
+          <div className="sp-preview-label">THIS WEEK</div>
+          <div className="sp-preview-heading">Build your backend foundation</div>
+          <div className="sp-preview-progress"><div><span>Weekly progress</span><strong>62%</strong></div><div className="progress-track"><div className="progress-fill" style={{ width: '62%' }} /></div></div>
+          <div className="sp-preview-list"><div><span className="material-symbols-outlined done">check_circle</span><span>HTTP & REST fundamentals</span><b>Done</b></div><div><span className="material-symbols-outlined current">play_circle</span><span>Build an Express API</span><b className="now">Today</b></div><div><span className="material-symbols-outlined next">radio_button_unchecked</span><span>Persist data with a database</span><b>Next</b></div></div>
+          <div className="sp-preview-footer"><span className="material-symbols-outlined">lightbulb</span><span><strong>Smart next step</strong><br />Finish the API exercise before moving on.</span></div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-          {FEATURES.map(f => (
-            <div key={f.title} style={{
-              backgroundColor: 'var(--surface-low)', border: '1px solid var(--border)',
-              borderRadius: 8, padding: 12,
-            }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 22, color: 'var(--primary)', display: 'block', marginBottom: 6 }}>{f.icon}</span>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--on-surface)', marginBottom: 3 }}>{f.title}</div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--on-surface-dim)', lineHeight: 1.4 }}>{f.desc}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+      </section>
 
-      {/* CTA to how-it-works */}
-      <button
-        className="sp-btn-secondary"
-        onClick={() => navigate('/how-it-works')}
-        style={{ padding: '9px 0', width: '100%', fontSize: '0.875rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}
-      >
-        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>explore</span>
-        How SmartPrep Works
-      </button>
+      <section className="sp-home-section"><div className="sp-section-intro"><span className="sp-eyebrow">A calmer way to prepare</span><h2>Everything you need to move forward.</h2><p>No noise, no random playlists, no wondering what comes next.</p></div><div className="sp-pillar-grid">{PILLARS.map(p => <article className="sp-pillar" key={p.title}><span className="material-symbols-outlined">{p.icon}</span><h3>{p.title}</h3><p>{p.desc}</p></article>)}</div></section>
+
+      <section className="sp-home-split"><div><span className="sp-eyebrow">From ambition to action</span><h2>Your goal deserves more than a bookmark.</h2><p>Whether you are targeting placements, backend development, full-stack work, or AI/ML, SmartPrep keeps your preparation in one place and gives every session a purpose.</p><button className="sp-text-link" onClick={() => navigate('/goals')}>Explore career goals <span className="material-symbols-outlined">arrow_forward</span></button></div><div className="sp-outcome-card">{OUTCOMES.map((item, i) => <div key={item}><span>0{i + 1}</span><p>{item}</p><span className="material-symbols-outlined">check</span></div>)}</div></section>
     </div>
   )
 }

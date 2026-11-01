@@ -9,7 +9,7 @@ const STATUS_CONFIG = {
     bg: 'rgba(16, 185, 129, 0.08)',
     icon: 'check_circle',
     iconColor: '#10b981',
-    label: 'VERIFIED',
+    label: 'COMPLETED',
     labelColor: '#10b981',
     badgeClass: 'badge-verified'
   },
@@ -18,7 +18,7 @@ const STATUS_CONFIG = {
     bg: 'rgba(20, 184, 166, 0.08)',
     icon: 'radio_button_checked',
     iconColor: '#14b8a6',
-    label: 'ACTIVE RUN',
+    label: 'UP NEXT',
     labelColor: '#14b8a6',
     badgeClass: 'badge-active'
   },
@@ -27,7 +27,7 @@ const STATUS_CONFIG = {
     bg: 'transparent',
     icon: 'radio_button_unchecked',
     iconColor: 'var(--secondary)',
-    label: 'QUEUED',
+    label: 'COMING UP',
     labelColor: 'var(--secondary)',
     badgeClass: ''
   },
@@ -36,7 +36,7 @@ const STATUS_CONFIG = {
     bg: 'transparent',
     icon: 'lock',
     iconColor: 'var(--secondary)',
-    label: 'LOCKED',
+    label: 'LOCKED FOR NOW',
     labelColor: 'var(--secondary)',
     badgeClass: ''
   },
@@ -191,7 +191,7 @@ export default function RoadmapStage({ stage, isLast }) {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
                   <span className="material-symbols-outlined" style={{ fontSize: 16, color: 'var(--primary)' }}>flag</span>
-                  <span className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', fontWeight: 700 }}>TODAY'S TARGET</span>
+                  <span className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', fontWeight: 700 }}>THIS SESSION</span>
                 </div>
                 <div style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--on-surface)' }}>{stage.todayFocus}</div>
                 {stage.todayDescription && (
@@ -210,7 +210,7 @@ export default function RoadmapStage({ stage, isLast }) {
             <div style={{ marginTop: 14 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)', fontWeight: 700, letterSpacing: '0.04em' }}>
-                  CORE TOPICS // CLICK TO MARK MASTERED
+                  SKILLS TO PRACTISE
                 </div>
                 <span className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)' }}>
                   {topicPct}% done
@@ -247,7 +247,7 @@ export default function RoadmapStage({ stage, isLast }) {
             {stage.resources && (
               <div style={{ marginTop: 14 }}>
                 <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)', fontWeight: 700, marginBottom: 6 }}>
-                  CURATED STUDY RESOURCES
+                  USEFUL RESOURCES
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {stage.resources.map((r, i) => (

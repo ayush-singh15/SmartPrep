@@ -17,7 +17,7 @@ export default function Sidebar() {
     >
       <div className="flex flex-col gap-1.5">
         <div className="mono text-[10px] text-[var(--secondary)] font-bold tracking-wider px-2.5 py-1 uppercase">
-          Workspace Navigation
+          Your workspace
         </div>
         {items.map(item => {
           const active = location.pathname === item.path ||
@@ -45,13 +45,13 @@ export default function Sidebar() {
       <div className="flex flex-col gap-2">
         <div className="bg-[var(--surface-mid)] border border-[var(--border)] rounded-lg p-3">
           <div className="flex items-center justify-between text-[11px] font-mono text-[var(--on-surface-dim)] mb-1.5">
-            <span>PIPELINE PROGRESS</span>
+            <span>ROADMAP PROGRESS</span>
             <span className="text-[var(--primary)] font-bold">{progress.overallPercent || 0}%</span>
           </div>
           <ProgressBar value={progress.overallPercent || 0} />
           <div className="text-[10px] text-[var(--secondary)] mt-2 font-mono flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--tertiary)] animate-pulse" />
-            <span>Status: Verified nominal</span>
+            <span>Status: on track</span>
           </div>
         </div>
 
@@ -82,3 +82,4 @@ export default function Sidebar() {
     </aside>
   )
 }
+

@@ -1,8 +1,8 @@
-// One list used by BOTH the mobile bottom bar and the desktop sidebar.
+// Shared navigation for the student workspace.
 export const NAV_ITEMS = [
-  { path: '/dashboard',    icon: 'terminal',     label: 'Console' },
-  { path: '/roadmap',      icon: 'account_tree', label: 'Roadmap' },
-  { path: '/goals',        icon: 'adjust',       label: 'Goals' },
-  { path: '/assistant',    icon: 'memory',       label: 'AI Kernel' },
-  { path: '/how-it-works', icon: 'explore',      label: 'Docs' },
+  { path: '/dashboard',    icon: 'home',         label: 'My week' },
+  { path: '/roadmap',      icon: 'route',        label: 'Learning path' },
+  { path: '/goals',        icon: 'explore',      label: 'Career goals' },
+  { path: '/assistant',    icon: 'forum',        label: 'Study guide' },
+  { path: '/how-it-works', icon: 'help_outline', label: 'How it works' },
 ]

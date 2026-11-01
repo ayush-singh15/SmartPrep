@@ -31,11 +31,11 @@ export default function Navbar() {
     .split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ').replace('Developer', 'Dev')
 
   const pageTitle =
-    location.pathname === '/' ? 'Terminal' :
-    location.pathname === '/dashboard' ? 'Console' :
+    location.pathname === '/' ? 'Home' :
+    location.pathname === '/dashboard' ? 'My week' :
     location.pathname === '/roadmap' ? 'My Roadmap' :
     location.pathname === '/goals' ? 'Career Targets' :
-    location.pathname === '/assistant' ? 'AI Kernel' :
+    location.pathname === '/assistant' ? 'Study guide' :
     location.pathname === '/how-it-works' ? 'Documentation' :
     location.pathname === '/profile' ? 'Profile & Settings' : 'SmartPrep'
 
@@ -128,3 +128,4 @@ function MenuItem({ id, icon, label, onClick, danger }) {
     </button>
   )
 }
+

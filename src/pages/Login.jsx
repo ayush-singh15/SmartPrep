@@ -15,7 +15,7 @@ const HANDSHAKE = [
 const HIGHLIGHTS = [
   { icon: 'account_tree', text: 'Prerequisite-ordered roadmaps' },
   { icon: 'bar_chart', text: 'Progress, streaks & study hours' },
-  { icon: 'memory', text: 'AI Kernel study guidance' },
+  { icon: 'memory', text: 'Practical study guidance' },
 ]
 
 function passwordStrength(pw) {
@@ -150,12 +150,12 @@ export default function Login() {
           <div className="sp-auth-logo">
             <span className="material-symbols-outlined">terminal</span>
           </div>
-          <div className="mono sp-auth-kicker">SMARTPREP // SECURITY_KERNEL_V1.0</div>
+          <div className="mono sp-auth-kicker">SMARTPREP // YOUR CAREER WORKSPACE</div>
           <h1 className="sp-auth-title">
-            Your career stack,<br /><span className="sp-auth-gradient-text">compiled in order.</span>
+            A clearer path<br /><span className="sp-auth-gradient-text">starts here.</span>
           </h1>
           <p className="sp-auth-sub">
-            AI-powered personalised roadmaps for students & self-taught developers. Sign in with your username or email to resume your pipeline.
+            SmartPrep helps you choose a direction, build the right skills, and keep moving with a plan you can actually follow.
           </p>
           <ul className="sp-auth-highlights">
             {HIGHLIGHTS.map(h => (
@@ -169,7 +169,7 @@ export default function Login() {
           <div className="sp-auth-terminal mono" aria-live="polite">
             <div className="sp-auth-terminal-bar">
               <span /><span /><span />
-              <em>auth.log</em>
+              <em>smartprep.log</em>
             </div>
             <div className="sp-auth-terminal-body">
               {handshake.length === 0 ? (
@@ -387,3 +387,4 @@ function SubmitButton({ busy, id, icon, label }) {
     </button>
   )
 }
+

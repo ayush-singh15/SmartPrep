@@ -45,7 +45,7 @@ export default function Dashboard() {
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2 mb-1.5 flex-wrap">
               <span className="mono text-xs text-[var(--primary)] font-bold tracking-wider">
-                DEV_SESSION // {(profile.name || 'AYUSH').toUpperCase()}
+                YOUR SMARTPREP WEEK // {(profile.name || 'STUDENT').toUpperCase()}
               </span>
               <span className="w-2 h-2 rounded-full bg-[var(--tertiary)] animate-pulse" />
             </div>
@@ -79,10 +79,10 @@ export default function Dashboard() {
           <ProgressBar value={progress.overallPercent || 0} max={100} height={7} />
 
           <div className="flex items-center justify-between text-xs text-[var(--on-surface-dim)] mt-2 flex-wrap gap-1 font-mono">
-            <span>{progress.overallPercent || 0}% Verified Competency</span>
+            <span>{progress.overallPercent || 0}% Roadmap progress</span>
             <span className="text-[var(--tertiary)] font-semibold flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--tertiary)]" />
-              Pipeline: Nominal
+              Plan: on track
             </span>
           </div>
         </div>
@@ -103,14 +103,14 @@ export default function Dashboard() {
             </div>
             <span className="badge-active mono text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] animate-pulse" />
-              ACTIVE RUN
+              IN PROGRESS
             </span>
           </div>
 
           {/* Directive details */}
           <div className="mb-4">
             <div className="mono text-[11px] text-[var(--secondary)] font-bold tracking-wider uppercase mb-1">
-              Today's Study Directive
+              Your next best step
             </div>
             <h2 className="text-base sm:text-lg font-bold text-[var(--on-surface)] leading-snug">
               {currentStageData.todayFocus || currentStageData.topics?.[0] || currentStageData.title}
@@ -176,10 +176,10 @@ export default function Dashboard() {
 
       {/* ── 3. TELEMETRY BENTO GRID (RESPONSIVE: 1 col on small, 2 cols on medium+) ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Weekly Target Card */}
+        {/* Study this week Card */}
         <div className="sp-card p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-[var(--on-surface-dim)]">
-            <span className="text-xs font-semibold uppercase tracking-wider">Weekly Target</span>
+            <span className="text-xs font-semibold uppercase tracking-wider">Study this week</span>
             <span className="material-symbols-outlined text-[18px] text-[var(--primary)]">query_stats</span>
           </div>
 
@@ -203,10 +203,10 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Streak & Eval Card */}
+        {/* Your consistency Card */}
         <div className="sp-card p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-[var(--on-surface-dim)]">
-            <span className="text-xs font-semibold uppercase tracking-wider">Streak & Eval</span>
+            <span className="text-xs font-semibold uppercase tracking-wider">Your consistency</span>
             <span className="material-symbols-outlined text-[18px] text-[var(--error)]">local_fire_department</span>
           </div>
 
@@ -215,7 +215,7 @@ export default function Dashboard() {
               <span className="text-2xl font-bold text-[var(--on-surface)] leading-none">
                 {progress.streak || 0}
               </span>
-              <span className="mono text-xs text-[var(--on-surface-dim)]">Days Active Run</span>
+              <span className="mono text-xs text-[var(--on-surface-dim)]">days in a row</span>
             </div>
             <div className="mono text-xs text-[var(--on-surface-dim)] mt-2">
               Stage {String(completedCount + 1).padStart(2, '0')} Telemetry Eval in 4d
@@ -235,7 +235,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[var(--error)] text-[20px]">bug_report</span>
             <h3 className="text-sm sm:text-base font-bold text-[var(--on-surface)]">
-              Knowledge Gaps (Telemetry)
+              Topics to revisit
             </h3>
           </div>
           <span className="badge-alert mono text-[10px] font-bold px-2 py-0.5 rounded">
@@ -244,7 +244,7 @@ export default function Dashboard() {
         </div>
 
         <p className="text-xs text-[var(--on-surface-dim)] mb-3 leading-relaxed">
-          Extracted from your completed stage assessments & algorithmic trace runs.
+          Use these quick checks to strengthen areas that need another pass.
         </p>
 
         <div className="flex flex-col gap-2.5">
@@ -280,14 +280,14 @@ export default function Dashboard() {
           className="sp-btn-secondary w-full py-2.5 px-4 mt-3.5 text-xs font-mono font-bold flex items-center justify-center gap-2 text-[var(--primary)]"
         >
           <span className="material-symbols-outlined text-[17px]">quiz</span>
-          <span>Generate 5-Min Diagnostic Patch</span>
+          <span>Take a 5-minute skills check</span>
         </button>
       </div>
 
       {/* ── 5. PIPELINE MILESTONES ── */}
       <div className="flex flex-col gap-2.5">
         <div className="flex items-center justify-between text-xs px-1 text-[var(--on-surface-dim)] font-mono font-semibold tracking-wider uppercase">
-          <span>Pipeline Milestones</span>
+          <span>Your roadmap</span>
           <span className="text-[var(--primary)]">Track: {trackLabel}</span>
         </div>
 
@@ -340,10 +340,10 @@ export default function Dashboard() {
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[var(--primary)] text-[16px]">history</span>
             <span className="mono text-xs font-bold text-[var(--on-surface)] uppercase tracking-wider">
-              Kernel Activity Log
+              Recent activity
             </span>
           </div>
-          <span className="mono text-[10px] text-[var(--on-surface-dim)]">Real-time sync</span>
+          <span className="mono text-[10px] text-[var(--on-surface-dim)]">Saved automatically</span>
         </div>
 
         <div className="flex flex-col gap-2 font-mono text-xs">
@@ -366,3 +366,4 @@ export default function Dashboard() {
     </div>
   )
 }
+

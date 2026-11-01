@@ -3,12 +3,12 @@ import { useApp } from '../hooks/AppContext'
 import { getAIResponse } from '../utils/aiEngine'
 
 const QUICK_PROMPTS = [
-  'What should I study today?',
-  'I missed 3 days, adjust my plan',
-  'What comes after DSA?',
-  'Give me practice questions',
-  'Show my weak areas',
-  'How is my progress?',
+  'What should I focus on today?',
+  'I missed a few days — help me restart',
+  'What should I learn after this?',
+  'Give me a quick practice set',
+  'Which topics need attention?',
+  'How am I progressing?',
 ]
 
 function formatMessage(text) {
@@ -141,7 +141,7 @@ export default function AIChat() {
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input) } }}
-          placeholder="Ask SmartPrep AI anything..."
+          placeholder="Ask about your roadmap, practice, or next step..."
           style={{
             flex: 1, padding: '9px 12px', borderRadius: 6,
             backgroundColor: 'var(--surface-mid)', border: '1px solid var(--border)',
@@ -166,3 +166,4 @@ export default function AIChat() {
     </div>
   )
 }
+

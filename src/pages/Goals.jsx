@@ -1,72 +1,29 @@
 import { useState } from 'react'
-import { useApp } from '../hooks/AppContext'
 import GoalCard from '../components/GoalCard'
 import { GOALS } from '../data/mockData'
 
+const FILTERS = ['All paths', 'Beginner friendly', 'Software roles', 'Data & AI']
+
 export default function Goals() {
-  const { selectGoal } = useApp()
   const [showCustom, setShowCustom] = useState(false)
+  const [filter, setFilter] = useState('All paths')
+  const visibleGoals = GOALS.filter(goal => {
+    if (filter === 'Beginner friendly') return goal.difficulty === 'Beginner'
+    if (filter === 'Software roles') return ['backend-developer', 'full-stack', 'android-developer', 'placement-prep'].includes(goal.id)
+    if (filter === 'Data & AI') return ['ai-ml', 'data-engineer'].includes(goal.id)
+    return true
+  })
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      {/* Header */}
-      <div>
-        <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--primary)', fontWeight: 600, letterSpacing: '0.06em', marginBottom: 3 }}>GOAL SELECTION</div>
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--on-surface)', marginBottom: 4 }}>Choose Your Career Path</h1>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--on-surface-dim)', lineHeight: 1.5 }}>
-          Select a goal to get a structured prerequisite roadmap tailored for B.Tech CSE students.
-        </p>
-      </div>
-
-      {/* Goal cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 10 }}>
-        {GOALS.map(goal => (
-          <GoalCard key={goal.id} goal={goal} />
-        ))}
-      </div>
-
-      {/* Custom goal */}
-      <div style={{
-        backgroundColor: 'var(--surface-low)', border: '1px dashed var(--border)',
-        borderRadius: 8, padding: 16,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 22, color: 'var(--on-surface-dim)' }}>add_circle</span>
-          <div>
-            <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--on-surface)' }}>Create Custom Goal</div>
-            <div className="mono" style={{ fontSize: '0.6875rem', color: 'var(--on-surface-dim)' }}>AI_GENERATED_ROADMAP</div>
-          </div>
-        </div>
-        {!showCustom ? (
-          <button
-            className="sp-btn-secondary"
-            onClick={() => setShowCustom(true)}
-            style={{ width: '100%', padding: '8px 0', fontSize: '0.875rem' }}
-          >
-            Configure Custom Goal
-          </button>
-        ) : (
-          <div style={{
-            backgroundColor: 'var(--surface-mid)', border: '1px solid var(--border)',
-            borderRadius: 6, padding: 14, textAlign: 'center',
-          }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 32, color: 'var(--primary)', display: 'block', marginBottom: 8 }}>construction</span>
-            <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--on-surface)', marginBottom: 4 }}>
-              Custom Roadmap Generation
-            </div>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--on-surface-dim)', lineHeight: 1.5, marginBottom: 10 }}>
-              AI-powered custom goal roadmaps are coming soon. You'll be able to describe your target role and get a personalised learning path.
-            </div>
-            <div className="mono" style={{
-              fontSize: '0.6875rem', color: 'var(--primary)',
-              backgroundColor: 'var(--primary-bg)', padding: '4px 10px', borderRadius: 2,
-              display: 'inline-block',
-            }}>
-              STATUS: IN_DEVELOPMENT
-            </div>
-          </div>
-        )}
-      </div>
+    <div className="sp-goals-page">
+      <header className="sp-goals-header">
+        <div><span className="sp-eyebrow">Choose your direction</span><h1>One goal at a time.<br /><span>A plan you can trust.</span></h1><p>Pick the career path that feels closest to where you want to go. SmartPrep will organise the skills, practice, and milestones for you.</p></div>
+        <div className="sp-goals-callout"><span className="material-symbols-outlined">route</span><div><strong>Not sure yet?</strong><p>Start with Placement Preparation. It gives you a broad foundation while you explore.</p></div></div>
+      </header>
+      <div className="sp-goals-filters" role="tablist" aria-label="Career path filters">{FILTERS.map(item => <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)}>{item}</button>)}</div>
+      <div className="sp-goals-grid">{visibleGoals.map(goal => <GoalCard key={goal.id} goal={goal} />)}</div>
+      {visibleGoals.length === 0 && <div className="sp-empty-state">No paths match this filter yet.</div>}
+      <section className="sp-custom-goal"><div><span className="material-symbols-outlined">add_circle</span><div><h2>Have a different target?</h2><p>Custom roadmap generation is coming soon. Tell us the role you are aiming for and we will help shape the next path.</p></div></div><button className="sp-btn-secondary" onClick={() => setShowCustom(value => !value)}>{showCustom ? 'Hide details' : 'Tell me more'}</button>{showCustom && <div className="sp-custom-note"><span className="material-symbols-outlined">construction</span> Custom career paths are in development — your current goals are fully available now.</div>}</section>
     </div>
   )
 }

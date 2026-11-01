@@ -19,10 +19,10 @@ export default function Assistant() {
           </div>
           <div className="flex flex-col min-w-0">
             <div className="mono text-[10px] text-[var(--primary)] font-bold tracking-wider">
-              AI KERNEL // SMARTPREP v1.0
+              SMARTPREP STUDY GUIDE
             </div>
             <div className="text-xs sm:text-sm font-bold text-[var(--on-surface)] truncate">
-              {currentStage ? currentStage.title : 'Ready'}
+              {currentStage ? `Currently learning: ${currentStage.title}` : 'Ready when you are'}
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@ export default function Assistant() {
           </div>
           <div className="badge-verified mono text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--tertiary)] animate-pulse" />
-            <span>ONLINE</span>
+            <span>READY</span>
           </div>
         </div>
       </div>
@@ -47,3 +47,4 @@ export default function Assistant() {
     </div>
   )
 }
+
