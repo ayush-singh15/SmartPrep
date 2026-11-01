@@ -39,6 +39,8 @@ export function AppProvider({ children }) {
   const [progress, setProgressState] = useState(() => getItem(STORAGE_KEYS.PROGRESS, DEFAULT_PROGRESS));
   const [sessions, setSessionsState] = useState(() => getItem(STORAGE_KEYS.SESSIONS, []));
   const [activity, setActivityState] = useState(() => getItem(STORAGE_KEYS.ACTIVITY, DEFAULT_ACTIVITY));
+  const [practice, setPracticeState] = useState(() => getItem(STORAGE_KEYS.PRACTICE, []));
+  const [attempts, setAttemptsState] = useState(() => getItem(STORAGE_KEYS.ATTEMPTS, []));
   const [theme, setThemeState] = useState(() => getItem(STORAGE_KEYS.THEME, 'dark'));
   const [backendStatus, setBackendStatus] = useState('checking'); // 'online' | 'offline' | 'checking'
   const [auth, setAuthState] = useState(() => getItem(STORAGE_KEYS.AUTH, null));
@@ -233,6 +235,36 @@ export function AppProvider({ children }) {
     }
   }, [progress, sessions, activity]);
 
+  const addPracticeQuestion = useCallback((question) => {
+    const item = { id: Date.now(), title: question.title.trim(), url: question.url?.trim() || '', topic: question.topic?.trim() || 'General practice', source: question.source?.trim() || 'Personal list', status: 'todo', createdAt: new Date().toISOString() }
+    if (!item.title) return
+    const next = [item, ...practice].slice(0, 100)
+    setPracticeState(next)
+    setItem(STORAGE_KEYS.PRACTICE, next)
+  }, [practice])
+
+  const togglePracticeQuestion = useCallback((questionId) => {
+    const next = practice.map(item => item.id === questionId ? { ...item, status: item.status === 'done' ? 'todo' : 'done', solvedAt: item.status === 'done' ? null : new Date().toISOString() } : item)
+    setPracticeState(next)
+    setItem(STORAGE_KEYS.PRACTICE, next)
+    const solved = next.find(item => item.id === questionId)?.status === 'done'
+    const newActivity = { id: Date.now(), text: solved ? 'Completed a practice question' : 'Reopened a practice question', time: 'Just now', color: solved ? 'tertiary' : 'primary' }
+    const nextActivity = [newActivity, ...activity].slice(0, 10)
+    setActivityState(nextActivity)
+    setItem(STORAGE_KEYS.ACTIVITY, nextActivity)
+  }, [practice, activity])
+
+  const recordPracticeAttempt = useCallback((attempt) => {
+    const item = { id: Date.now(), questionId: attempt.questionId, title: attempt.title, topic: attempt.topic, answerLength: attempt.answerLength, quality: attempt.quality, feedback: attempt.feedback, createdAt: new Date().toISOString() }
+    const next = [item, ...attempts].slice(0, 100)
+    setAttemptsState(next)
+    setItem(STORAGE_KEYS.ATTEMPTS, next)
+  }, [attempts])
+  const removePracticeQuestion = useCallback((questionId) => {
+    const next = practice.filter(item => item.id !== questionId)
+    setPracticeState(next)
+    setItem(STORAGE_KEYS.PRACTICE, next)
+  }, [practice])
   const getRoadmap = useCallback(() => {
     const goalId = progress.goalId || 'backend-developer';
     return getRoadmapWithStatus(progress.completedStages || [], progress.currentStage || 'stage-01', goalId);
@@ -258,9 +290,9 @@ export function AppProvider({ children }) {
 
   return (
     <AppContext.Provider value={{
-      profile, progress, sessions, activity, theme, backendStatus,
+      profile, progress, sessions, activity, practice, attempts, theme, backendStatus,
       auth, isAuthenticated, login, register, demoLogin, logout,
-      toggleTheme, updateProfile, selectGoal, completeStage, toggleTopic, addStudySession, getRoadmap, resetDemo
+      toggleTheme, updateProfile, selectGoal, completeStage, toggleTopic, addStudySession, addPracticeQuestion, togglePracticeQuestion, removePracticeQuestion, recordPracticeAttempt, getRoadmap, resetDemo
     }}>
       {children}
     </AppContext.Provider>
@@ -272,3 +304,6 @@ export function useApp() {
   if (!ctx) throw new Error('useApp must be used within AppProvider');
   return ctx;
 }
+
+
+

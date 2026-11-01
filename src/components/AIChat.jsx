@@ -27,11 +27,11 @@ function formatMessage(text) {
 }
 
 export default function AIChat() {
-  const { progress, profile } = useApp()
+  const { progress, profile, practice, attempts } = useApp()
   const [messages, setMessages] = useState([
     {
       id: 1, role: 'assistant',
-      text: getAIResponse('', progress, profile),
+      text: getAIResponse('', progress, profile, practice, attempts),
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     }
   ])
@@ -48,7 +48,7 @@ export default function AIChat() {
     setInput('')
     setTyping(true)
     setTimeout(() => {
-      const reply = getAIResponse(text, progress, profile)
+      const reply = getAIResponse(text, progress, profile, practice, attempts)
       setMessages(m => [...m, { id: Date.now() + 1, role: 'assistant', text: reply, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }])
       setTyping(false)
     }, 800 + Math.random() * 600)
@@ -166,4 +166,5 @@ export default function AIChat() {
     </div>
   )
 }
+
 

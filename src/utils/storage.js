@@ -9,7 +9,7 @@ export const STORAGE_KEYS = {
   ACTIVITY: 'smartprep_activity',
   THEME: 'smartprep_theme',
   AUTH: 'smartprep_auth',           // active session { userId, email, rollNo, name, token, loggedInAt }
-  ACCOUNTS: 'smartprep_accounts',   // local student registry (offline-first auth fallback)
+  ACCOUNTS: 'smartprep_accounts',   // local student registry (offline-first auth fallback)\n  PRACTICE: 'smartprep_practice',   // student-added questions and review status\n  ATTEMPTS: 'smartprep_attempts',   // practice explanation attempts and feedback
 }
 
 export function getItem(key, defaultValue) {
@@ -33,3 +33,5 @@ export function setItem(key, value) {
 export function clearAll() {
   Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k))
 }
+
+

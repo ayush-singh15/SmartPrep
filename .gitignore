@@ -33,3 +33,9 @@ generate_*.py
 
 .vercel
 .env*
+
+# Local Vercel/browser runtime data
+.appdata
+.localappdata
+AppData
+.vercel-cli-home
