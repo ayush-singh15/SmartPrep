@@ -30,7 +30,7 @@ const SHEET = [
 const EMPTY_FORM = { title: '', url: '', topic: '', source: 'LeetCode' }
 
 export default function PracticeBoard() {
-  const { practice, attempts, addPracticeQuestion, togglePracticeQuestion, removePracticeQuestion, recordPracticeAttempt } = useApp()
+  const { practice, attempts, addPracticeQuestion, togglePracticeQuestion, markPracticeSolved, removePracticeQuestion, recordPracticeAttempt } = useApp()
   const [form, setForm] = useState(EMPTY_FORM)
   const [showForm, setShowForm] = useState(false)
   const [activeTopic, setActiveTopic] = useState('All topics')
@@ -109,7 +109,8 @@ export default function PracticeBoard() {
     const quality = hasCode && hasReasoning ? 'good' : 'needs-detail'
     const message = quality === 'good' ? 'Your solution contains code and reasoning. Review the edge cases, then mark the question solved.' : 'Add both the implementation and a short explanation of the approach and complexity.'
     recordPracticeAttempt({ questionId: selected.id, title: selected.title, topic: selected.topic, answerLength: text.length, quality, feedback: message })
-    setSolutionFeedback({ type: quality === 'good' ? 'success' : 'hint', text: message })
+    if (quality === 'good') markPracticeSolved(selected.id)
+    setSolutionFeedback({ type: quality === 'good' ? 'success' : 'hint', text: quality === 'good' ? message + ' Question marked solved.' : message })
   }
 
   function reviewAnswer(e) {
