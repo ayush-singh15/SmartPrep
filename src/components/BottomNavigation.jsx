@@ -25,10 +25,13 @@ export default function BottomNavigation() {
               onClick={() => navigate(item.path)}
               style={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                gap: 2, minWidth: 56, height: 44, border: 'none', background: 'transparent',
+                gap: 2, minWidth: 56, height: 44, border: 'none',
                 cursor: 'pointer',
                 color: active ? 'var(--primary)' : 'var(--on-surface-dim)',
-                transition: 'color 0.15s',
+                transform: active ? 'translateY(-2px)' : 'none',
+                background: active ? 'var(--primary-bg)' : 'transparent',
+                transition: 'color 0.2s, transform 0.2s, background 0.2s',
+                borderRadius: 12,
               }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: 20 }}>{item.icon}</span>

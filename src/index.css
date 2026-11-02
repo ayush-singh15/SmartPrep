@@ -587,3 +587,35 @@ body { background-image: radial-gradient(circle at 8% 0%, rgba(73, 166, 255, .13
 
 .sp-run-result { display: grid; gap: 3px; margin-top: 8px; font-size: 0.84rem; }
 .sp-run-result small { display: block; white-space: pre-wrap; color: var(--sp-muted, #64748b); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* SmartPrep responsive interaction polish */
+html { scroll-behavior: smooth; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button, a { touch-action: manipulation; }
+.sp-card, .sp-practice-item, .sp-sheet, .sp-daily-card, .sp-rank-card, .sp-goals-grid .sp-card { animation: sp-rise-in .45s both; }
+.sp-practice-item:hover { border-color: var(--border-bright); background: linear-gradient(100deg, var(--surface-low), var(--primary-bg)); transform: translateX(3px); }
+.sp-practice-check, .sp-practice-open, .sp-practice-delete { min-width: 36px; min-height: 36px; border-radius: 9px; }
+.sp-practice-check:hover, .sp-practice-open:hover, .sp-practice-delete:hover { background: var(--surface-mid); }
+.sp-btn-primary::after { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.25) 50%, transparent 75%); transform: translateX(-120%); transition: transform .6s ease; }
+.sp-btn-primary:hover::after { transform: translateX(120%); }
+.sp-practice-copy { text-align: left; background: transparent; border: 0; cursor: pointer; }
+.sp-sheet-group button { min-height: 36px; border-radius: 8px; transition: background .18s, padding-left .18s, color .18s; }
+.sp-sheet-group button:hover:not(:disabled) { padding-left: 6px; background: var(--primary-bg); }
+.sp-daily-card { position: relative; overflow: hidden; }
+.sp-daily-card::before { content: ''; position: absolute; width: 180px; height: 180px; right: -80px; top: -100px; border-radius: 50%; background: var(--primary-glow); filter: blur(8px); pointer-events: none; }
+.sp-practice-toolbar { position: sticky; top: 66px; z-index: 5; padding: 8px 0; background: color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter: blur(12px); }
+@keyframes sp-rise-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  main { padding-left: 12px !important; padding-right: 12px !important; }
+  .sp-practice-layout { padding-top: 4px; }
+  .sp-practice-head h1 { font-size: 2.1rem; }
+  .sp-practice-item { padding: 10px 8px; gap: 6px; }
+  .sp-practice-copy strong { font-size: .8rem; }
+  .sp-practice-copy span { font-size: .66rem; }
+  .sp-practice-toolbar { top: 64px; }
+  .sp-answer-card { width: calc(100vw - 20px) !important; max-height: calc(100dvh - 24px); overflow-y: auto; padding: 20px 16px !important; }
+  .sp-solution-actions { display: grid; grid-template-columns: 1fr; }
+  .sp-solution-actions button { width: 100%; min-height: 44px; }
+}

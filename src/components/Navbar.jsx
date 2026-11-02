@@ -40,7 +40,7 @@ export default function Navbar() {
     location.pathname === '/profile' ? 'Profile & Settings' : 'SmartPrep'
 
   return (
-    <header className="fixed top-0 inset-x-0 h-16 z-50 bg-[var(--surface)]/90 backdrop-blur-md border-b border-[var(--border)] px-4 sm:px-6">
+    <header className="fixed top-0 inset-x-0 h-16 z-50 bg-[var(--surface)]/80 backdrop-blur-xl border-b border-[var(--border)] px-3 sm:px-6 shadow-[0_8px_30px_-18px_var(--primary-glow)]">
       <div className="h-full max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Brand */}
         <div

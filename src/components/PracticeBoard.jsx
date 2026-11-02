@@ -73,6 +73,7 @@ export default function PracticeBoard() {
     setSolution('')
     setLanguage('JavaScript')
     setRunResult(null)
+    setTestCases(TEST_CASES[item.title] || [{ id: 1, input: '', expected: '' }])
     setSolutionFeedback(null)
   }
 
