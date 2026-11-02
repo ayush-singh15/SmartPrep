@@ -660,3 +660,7 @@ button, a { touch-action: manipulation; }
 .sp-card::before { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(120deg, rgba(255,255,255,.06), transparent 28%, transparent 72%, rgba(73,213,181,.04)); opacity: .7; }
 @keyframes sp-float { 0%,100% { transform: translateY(0) rotate(1.5deg); } 50% { transform: translateY(-8px) rotate(1.5deg); } }
 @media (max-width: 800px) { .sp-home-preview { animation: none; } }
+
+.sp-code-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 44px; margin-top: 16px; padding: 10px 14px; border: 1px solid var(--border-bright); border-radius: 10px; background: var(--primary-bg); color: var(--primary); font-weight: 700; font-size: .82rem; cursor: pointer; transition: transform .2s, background .2s, box-shadow .2s; }
+.sp-code-toggle:hover { transform: translateY(-1px); background: var(--surface-mid); box-shadow: 0 8px 24px -16px var(--primary-glow); }
+.sp-code-toggle .material-symbols-outlined { font-size: 19px; }
