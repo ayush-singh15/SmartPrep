@@ -41,6 +41,7 @@ export function AppProvider({ children }) {
   const [activity, setActivityState] = useState(() => getItem(STORAGE_KEYS.ACTIVITY, DEFAULT_ACTIVITY));
   const [practice, setPracticeState] = useState(() => getItem(STORAGE_KEYS.PRACTICE, []));
   const [attempts, setAttemptsState] = useState(() => getItem(STORAGE_KEYS.ATTEMPTS, []));
+  const [gamification, setGamificationState] = useState(() => getItem(STORAGE_KEYS.GAMIFICATION, { xp: 0, solvedCount: 0, lastSolvedDate: null }));
   const [theme, setThemeState] = useState(() => getItem(STORAGE_KEYS.THEME, 'dark'));
   const [backendStatus, setBackendStatus] = useState('checking'); // 'online' | 'offline' | 'checking'
   const [auth, setAuthState] = useState(() => getItem(STORAGE_KEYS.AUTH, null));
@@ -255,25 +256,32 @@ export function AppProvider({ children }) {
   }, [practice, activity])
 
   const recordPracticeAttempt = useCallback((attempt) => {
-    const item = { id: Date.now(), questionId: attempt.questionId, title: attempt.title, topic: attempt.topic, answerLength: attempt.answerLength, quality: attempt.quality, feedback: attempt.feedback, createdAt: new Date().toISOString() }
+    const item = { id: Date.now(), questionId: attempt.questionId, title: attempt.title, topic: attempt.topic, answerLength: attempt.answerLength, quality: attempt.quality, feedback: attempt.feedback, xpAwarded: attempt.quality === 'good', createdAt: new Date().toISOString() }
     const next = [item, ...attempts].slice(0, 100)
     setAttemptsState(next)
     setItem(STORAGE_KEYS.ATTEMPTS, next)
   }, [attempts])
 
+  const awardPracticeXp = useCallback((questionId) => {
+    const alreadyAwarded = attempts.some(item => item.questionId === questionId && item.xpAwarded)
+    if (alreadyAwarded) return
+    const next = { ...gamification, xp: (gamification.xp || 0) + 40, solvedCount: (gamification.solvedCount || 0) + 1, lastSolvedDate: new Date().toISOString().slice(0, 10) }
+    setGamificationState(next)
+    setItem(STORAGE_KEYS.GAMIFICATION, next)
+  }, [attempts, gamification])
+
   const markPracticeSolved = useCallback((questionId) => {
-    const next = practice.map(item => item.id === questionId
-      ? { ...item, status: 'done', solvedAt: item.solvedAt || new Date().toISOString() }
-      : item)
+    const next = practice.map(item => item.id === questionId ? { ...item, status: 'done', solvedAt: item.solvedAt || new Date().toISOString() } : item)
     setPracticeState(next)
     setItem(STORAGE_KEYS.PRACTICE, next)
     const question = next.find(item => item.id === questionId)
-    if (question && question.status === 'done') {
+    if (question) {
       const nextActivity = [{ id: Date.now(), text: `Solved: ${question.title}`, time: 'Just now', color: 'tertiary' }, ...activity].slice(0, 10)
       setActivityState(nextActivity)
       setItem(STORAGE_KEYS.ACTIVITY, nextActivity)
     }
   }, [practice, activity])
+
   const removePracticeQuestion = useCallback((questionId) => {
     const next = practice.filter(item => item.id !== questionId)
     setPracticeState(next)
@@ -306,7 +314,7 @@ export function AppProvider({ children }) {
     <AppContext.Provider value={{
       profile, progress, sessions, activity, practice, attempts, theme, backendStatus,
       auth, isAuthenticated, login, register, demoLogin, logout,
-      toggleTheme, updateProfile, selectGoal, completeStage, toggleTopic, addStudySession, addPracticeQuestion, togglePracticeQuestion, markPracticeSolved, removePracticeQuestion, recordPracticeAttempt, getRoadmap, resetDemo
+      toggleTheme, updateProfile, selectGoal, completeStage, toggleTopic, addStudySession, addPracticeQuestion, togglePracticeQuestion, markPracticeSolved, removePracticeQuestion, recordPracticeAttempt, awardPracticeXp, gamification, getRoadmap, resetDemo
     }}>
       {children}
     </AppContext.Provider>

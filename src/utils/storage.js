@@ -9,7 +9,8 @@ export const STORAGE_KEYS = {
   ACTIVITY: 'smartprep_activity',
   THEME: 'smartprep_theme',
   AUTH: 'smartprep_auth',           // active session { userId, email, rollNo, name, token, loggedInAt }
-  ACCOUNTS: 'smartprep_accounts',   // local student registry (offline-first auth fallback)\n  PRACTICE: 'smartprep_practice',   // student-added questions and review status\n  ATTEMPTS: 'smartprep_attempts',   // practice explanation attempts and feedback
+  ACCOUNTS: 'smartprep_accounts',   // local student registry (offline-first auth fallback)\n  PRACTICE: 'smartprep_practice',   // student-added questions and review status\n  ATTEMPTS: 'smartprep_attempts',
+  GAMIFICATION: 'smartprep_gamification',   // practice explanation attempts and feedback
 }
 
 export function getItem(key, defaultValue) {
