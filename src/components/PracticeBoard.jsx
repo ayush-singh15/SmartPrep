@@ -30,7 +30,7 @@ const SHEET = [
 const EMPTY_FORM = { title: '', url: '', topic: '', source: 'LeetCode' }
 
 export default function PracticeBoard() {
-  const { practice, attempts, addPracticeQuestion, togglePracticeQuestion, markPracticeSolved, removePracticeQuestion, recordPracticeAttempt, awardPracticeXp, awardPracticeXp } = useApp()
+  const { practice, attempts, addPracticeQuestion, togglePracticeQuestion, markPracticeSolved, removePracticeQuestion, recordPracticeAttempt, awardPracticeXp } = useApp()
   const [form, setForm] = useState(EMPTY_FORM)
   const [showForm, setShowForm] = useState(false)
   const [activeTopic, setActiveTopic] = useState('All topics')

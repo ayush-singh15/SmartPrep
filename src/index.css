@@ -626,3 +626,16 @@ button, a { touch-action: manipulation; }
 .sp-badge small { font-size: .58rem; line-height: 1.1; color: var(--on-surface-dim); }
 .sp-badge.is-locked { opacity: .38; filter: grayscale(1); border-color: var(--border); background: var(--surface-mid); }
 .sp-earnings-heading { margin-top: 18px !important; }
+
+.sp-momentum-card { background: linear-gradient(145deg, var(--surface-low), var(--primary-bg)); }
+.sp-momentum-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+.sp-momentum-stats div { padding: 10px; border: 1px solid var(--border); border-radius: 10px; background: color-mix(in srgb, var(--surface-low) 72%, transparent); }
+.sp-momentum-stats strong, .sp-momentum-stats span { display: block; }
+.sp-momentum-stats strong { color: var(--primary); font-size: 1.25rem; }
+.sp-momentum-stats span { color: var(--on-surface-dim); font-size: .65rem; }
+.sp-next-problems { display: grid; gap: 6px; }
+.sp-next-problems > div { display: grid; grid-template-columns: 18px 1fr auto; gap: 7px; align-items: center; padding: 8px; border-radius: 8px; background: var(--surface-low); font-size: .72rem; }
+.sp-next-problems .material-symbols-outlined { color: var(--primary); font-size: 17px; }
+.sp-next-problems > div > span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sp-next-problems > div > span:last-child { color: var(--on-surface-dim); font-size: .62rem; }
+@media (max-width: 430px) { .sp-momentum-stats { gap: 5px; } .sp-momentum-stats div { padding: 8px 6px; } }

@@ -15,7 +15,7 @@ function getGreeting() {
 }
 
 export default function Dashboard() {
-  const { profile, progress, activity } = useApp()
+  const { profile, progress, activity, practice, gamification } = useApp()
   const navigate = useNavigate()
   const [showSession, setShowSession] = useState(false)
   const [showQuiz, setShowQuiz] = useState(false)
@@ -32,6 +32,7 @@ export default function Dashboard() {
   const goalLabel = goalId.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')
   const completedCount = (progress.completedStages || []).length
   const lastCompleted = roadmap.filter(s => (progress.completedStages || []).includes(s.id)).pop()
+  const openPractice = practice.filter(item => item.status !== 'done').slice(0, 3)
 
   return (
     <div className="flex flex-col gap-5 w-full">
@@ -229,6 +230,16 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* ── 4. PRACTICE MOMENTUM CARD ── */}
+      <div className="sp-card sp-momentum-card p-5">
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <div><span className="sp-eyebrow">Practice momentum</span><h3 className="text-base font-bold mt-1">Keep the streak alive.</h3></div>
+          <span className="material-symbols-outlined text-[var(--warning)] text-[25px]">local_fire_department</span>
+        </div>
+        <div className="sp-momentum-stats"><div><strong>{gamification?.xp || 0}</strong><span>XP earned</span></div><div><strong>{gamification?.streak || 0}</strong><span>day streak</span></div><div><strong>{practice.filter(item => item.status === 'done').length}</strong><span>solved</span></div></div>
+        {openPractice.length ? <div className="sp-next-problems">{openPractice.map(item => <div key={item.id}><span className="material-symbols-outlined">radio_button_unchecked</span><span>{item.title}</span><span>{item.topic}</span></div>)}</div> : <p className="text-xs text-[var(--on-surface-dim)]">Your queue is clear. Add another problem from Practice.</p>}
+        <button className="sp-btn-secondary w-full py-2.5 mt-3 text-xs font-semibold" onClick={() => navigate('/practice')}><span className="material-symbols-outlined text-[17px] mr-1">arrow_forward</span> Open practice queue</button>
+      </div>
       {/* ── 4. DIAGNOSTIC WEAK AREAS CARD ── */}
       <div className="sp-card p-5">
         <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
