@@ -639,3 +639,15 @@ button, a { touch-action: manipulation; }
 .sp-next-problems > div > span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sp-next-problems > div > span:last-child { color: var(--on-surface-dim); font-size: .62rem; }
 @media (max-width: 430px) { .sp-momentum-stats { gap: 5px; } .sp-momentum-stats div { padding: 8px 6px; } }
+
+.sp-practice-page { max-width: 1220px; margin: 0 auto; }
+.sp-practice-overview { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; padding: 14px 0 8px; }
+.sp-practice-overview h1 { margin: 10px 0 7px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.02; letter-spacing: -.055em; }
+.sp-practice-overview p { max-width: 600px; margin: 0; color: var(--on-surface-dim); font-size: .86rem; line-height: 1.6; }
+.sp-practice-kpis { display: grid; grid-template-columns: repeat(4, minmax(72px, 1fr)); gap: 8px; }
+.sp-practice-kpis div { min-width: 76px; padding: 11px 10px; border: 1px solid var(--border); border-radius: 11px; background: var(--surface-low); text-align: center; }
+.sp-practice-kpis strong, .sp-practice-kpis span { display: block; }
+.sp-practice-kpis strong { color: var(--primary); font-size: 1.25rem; }
+.sp-practice-kpis span { color: var(--on-surface-dim); font-size: .62rem; }
+@media (max-width: 760px) { .sp-practice-overview { grid-template-columns: 1fr; align-items: start; } .sp-practice-kpis { width: 100%; } }
+@media (max-width: 420px) { .sp-practice-kpis { grid-template-columns: repeat(2, 1fr); } }
