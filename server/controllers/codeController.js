@@ -6,6 +6,7 @@ const LANGUAGE_PATTERNS = {
 }
 
 const LANGUAGE_IDS = { JavaScript: 63, Python: 71, Java: 62, 'C++': 54 }
+const PUBLIC_JUDGE0_URL = 'https://ce.judge0.com'
 const MAX_CODE_LENGTH = 20000
 const MAX_CASES = 10
 
@@ -19,11 +20,10 @@ function normalizeCases(testCases) {
 }
 
 async function runJudge0({ language, code, testCases }) {
-  const baseUrl = process.env.JUDGE0_URL
+  const baseUrl = process.env.JUDGE0_URL || PUBLIC_JUDGE0_URL
   const apiKey = process.env.JUDGE0_API_KEY
-  if (!baseUrl || !apiKey) return null
-
-  const headers = { 'Content-Type': 'application/json', 'X-RapidAPI-Key': apiKey }
+  const headers = { 'Content-Type': 'application/json' }
+  if (apiKey) headers['X-RapidAPI-Key'] = apiKey
   const results = []
   for (const test of testCases) {
     const response = await fetch(`${baseUrl.replace(/\/$/, '')}/submissions?base64_encoded=false&wait=true`, {
@@ -48,7 +48,7 @@ export async function runCode(req, res) {
   const cases = normalizeCases(testCases)
   try {
     const results = await runJudge0({ language, code: source, testCases: cases })
-    if (!results) return res.json({ data: { status: 'accepted-for-review', passed: false, message: 'Solution structure accepted. Configure the server-side Judge0 credentials to run test cases.', results: cases.map(test => ({ ...test, status: 'pending', passed: false })) } })
+    if (!results) return res.json({ data: { status: 'accepted-for-review', passed: false, message: 'Solution structure accepted. The free Judge0 runner is unavailable right now, so test cases remain pending.', results: cases.map(test => ({ ...test, status: 'pending', passed: false })) } })
     const passed = results.length > 0 && results.every(result => result.passed)
     return res.json({ data: { status: passed ? 'passed' : 'failed', passed, message: passed ? 'All test cases passed.' : 'One or more test cases failed.', results } })
   } catch (error) {
