@@ -50,7 +50,7 @@ export default function PracticeBoard() {
   const topics = useMemo(() => Array.from(new Set(practice.map(item => item.topic).filter(Boolean))), [practice])
   const questions = activeTopic === 'All topics' ? practice : practice.filter(item => item.topic === activeTopic)
   const availableDaily = SHEET.flatMap(group => group.items.map(title => ({ title, topic: group.topic }))).filter(item => !practice.some(saved => saved.title === item.title))
-  const weakTopics = useMemo(() => Array.from(new Set(attempts.filter(item => item.quality !== "good").map(item => item.topic).filter(Boolean))), [attempts])
+  const weakTopics = useMemo(() => { const counts = attempts.filter(item => item.quality !== 'good').reduce((map, item) => { map[item.topic] = (map[item.topic] || 0) + 1; return map }, {}); return Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([topic]) => topic) }, [attempts])
   const recommended = availableDaily.find(item => weakTopics.includes(item.topic)) || availableDaily.find(item => topics.includes(item.topic)) || availableDaily[0]
   function chooseDaily() { if (recommended) setDaily(recommended) }
 
