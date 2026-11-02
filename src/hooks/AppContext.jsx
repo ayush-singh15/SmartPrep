@@ -41,7 +41,7 @@ export function AppProvider({ children }) {
   const [activity, setActivityState] = useState(() => getItem(STORAGE_KEYS.ACTIVITY, DEFAULT_ACTIVITY));
   const [practice, setPracticeState] = useState(() => getItem(STORAGE_KEYS.PRACTICE, []));
   const [attempts, setAttemptsState] = useState(() => getItem(STORAGE_KEYS.ATTEMPTS, []));
-  const [gamification, setGamificationState] = useState(() => getItem(STORAGE_KEYS.GAMIFICATION, { xp: 0, solvedCount: 0, lastSolvedDate: null }));
+  const [gamification, setGamificationState] = useState(() => getItem(STORAGE_KEYS.GAMIFICATION, { xp: 0, solvedCount: 0, lastSolvedDate: null, streak: 0, bestStreak: 0, badges: [] }));
   const [theme, setThemeState] = useState(() => getItem(STORAGE_KEYS.THEME, 'dark'));
   const [backendStatus, setBackendStatus] = useState('checking'); // 'online' | 'offline' | 'checking'
   const [auth, setAuthState] = useState(() => getItem(STORAGE_KEYS.AUTH, null));
@@ -272,7 +272,10 @@ export function AppProvider({ children }) {
     yesterday.setDate(today.getDate() - 1)
     const yesterdayKey = yesterday.toISOString().slice(0, 10)
     const nextStreak = previousKey === yesterdayKey ? (gamification.streak || 0) + 1 : 1
-    const next = { ...gamification, xp: (gamification.xp || 0) + 40, solvedCount: (gamification.solvedCount || 0) + 1, lastSolvedDate: todayKey, streak: nextStreak, bestStreak: Math.max(gamification.bestStreak || 0, nextStreak) }
+    const solvedCount = (gamification.solvedCount || 0) + 1
+    const badgeRules = [{ id: 'first-solve', label: 'First Solve', icon: 'flag', test: solvedCount >= 1 }, { id: 'ten-solves', label: '10 Questions', icon: 'military_tech', test: solvedCount >= 10 }, { id: 'seven-day-streak', label: '7-Day Streak', icon: 'local_fire_department', test: nextStreak >= 7 }]
+    const badges = Array.from(new Set([...(gamification.badges || []), ...badgeRules.filter(badge => badge.test).map(badge => badge.id)]))
+    const next = { ...gamification, xp: (gamification.xp || 0) + 40, solvedCount, lastSolvedDate: todayKey, streak: nextStreak, bestStreak: Math.max(gamification.bestStreak || 0, nextStreak), badges }
     setGamificationState(next)
     setItem(STORAGE_KEYS.GAMIFICATION, next)
   }, [attempts, gamification])

@@ -619,3 +619,10 @@ button, a { touch-action: manipulation; }
   .sp-solution-actions { display: grid; grid-template-columns: 1fr; }
   .sp-solution-actions button { width: 100%; min-height: 44px; }
 }
+
+.sp-badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 12px 0 18px; }
+.sp-badge { display: grid; place-items: center; gap: 5px; padding: 9px 4px; border: 1px solid var(--border-bright); border-radius: 10px; background: var(--primary-bg); color: var(--primary); text-align: center; }
+.sp-badge .material-symbols-outlined { font-size: 21px; }
+.sp-badge small { font-size: .58rem; line-height: 1.1; color: var(--on-surface-dim); }
+.sp-badge.is-locked { opacity: .38; filter: grayscale(1); border-color: var(--border); background: var(--surface-mid); }
+.sp-earnings-heading { margin-top: 18px !important; }
