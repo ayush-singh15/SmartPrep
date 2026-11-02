@@ -664,3 +664,6 @@ button, a { touch-action: manipulation; }
 .sp-code-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 44px; margin-top: 16px; padding: 10px 14px; border: 1px solid var(--border-bright); border-radius: 10px; background: var(--primary-bg); color: var(--primary); font-weight: 700; font-size: .82rem; cursor: pointer; transition: transform .2s, background .2s, box-shadow .2s; }
 .sp-code-toggle:hover { transform: translateY(-1px); background: var(--surface-mid); box-shadow: 0 8px 24px -16px var(--primary-glow); }
 .sp-code-toggle .material-symbols-outlined { font-size: 19px; }
+
+.sp-template-button { justify-self: start; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-mid); color: var(--on-surface-dim); font-size: .72rem; cursor: pointer; transition: color .18s, border-color .18s, background .18s; }
+.sp-template-button:hover { color: var(--primary); border-color: var(--primary); background: var(--primary-bg); }
