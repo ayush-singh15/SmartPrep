@@ -265,7 +265,14 @@ export function AppProvider({ children }) {
   const awardPracticeXp = useCallback((questionId) => {
     const alreadyAwarded = attempts.some(item => item.questionId === questionId && item.xpAwarded)
     if (alreadyAwarded) return
-    const next = { ...gamification, xp: (gamification.xp || 0) + 40, solvedCount: (gamification.solvedCount || 0) + 1, lastSolvedDate: new Date().toISOString().slice(0, 10) }
+    const today = new Date()
+    const todayKey = today.toISOString().slice(0, 10)
+    const previousKey = gamification.lastSolvedDate
+    const yesterday = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+    const yesterdayKey = yesterday.toISOString().slice(0, 10)
+    const nextStreak = previousKey === yesterdayKey ? (gamification.streak || 0) + 1 : 1
+    const next = { ...gamification, xp: (gamification.xp || 0) + 40, solvedCount: (gamification.solvedCount || 0) + 1, lastSolvedDate: todayKey, streak: nextStreak, bestStreak: Math.max(gamification.bestStreak || 0, nextStreak) }
     setGamificationState(next)
     setItem(STORAGE_KEYS.GAMIFICATION, next)
   }, [attempts, gamification])
